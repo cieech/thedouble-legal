@@ -173,7 +173,7 @@ async function sendMagicLink() {
   var msg = document.getElementById("login-msg");
   if (!email) { msg.textContent = "Enter your email."; return; }
   msg.textContent = "Sending...";
-  var r = await sb.auth.signInWithOtp({ email: email });
+  var r = await sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: 'https://thedouble.app/admin/' } });
   if (r.error) { msg.textContent = "Error: " + r.error.message; }
   else { msg.textContent = "Check your inbox for the magic link."; }
 }
