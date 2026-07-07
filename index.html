@@ -3,43 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TheDouble</title>
-  <meta name="description" content="Your Double. A second you that remembers.">
+  <title>TheDouble — Your second self.</title>
+  <meta name="description" content="TheDouble gives you an AI second self that learns how you think, remembers what matters, and quietly works on your behalf. Nothing shared without you.">
+  <meta property="og:title" content="TheDouble — Your second self.">
+  <meta property="og:description" content="An AI second self that learns how you think, remembers what matters, and quietly works on your behalf.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thedouble.app">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <a href="index.html">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="14" cy="18" r="10.25" stroke="#211E1A" stroke-width="1.5"/>
-        <circle cx="22" cy="18" r="10.25" stroke="#211E1A" stroke-width="1.5"/>
-        <path d="M18 8.3C21.4 10.6 23.5 14.1 23.5 18C23.5 21.9 21.4 25.4 18 27.7C14.6 25.4 12.5 21.9 12.5 18C12.5 14.1 14.6 10.6 18 8.3Z" fill="#1F6E66" opacity="0.22"/>
-      </svg>
-      <span class="wordmark">TheDouble</span>
-    </a>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ── HEADER ── -->
+  <header class="mkt-header" role="banner">
+    <div class="mkt-header-inner">
+      <a href="/" class="mkt-wordmark" aria-label="TheDouble — home">
+        <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+          </defs>
+          <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
+          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+        </svg>
+        <span class="mkt-wordmark-text">TheDouble</span>
+      </a>
+
+      <nav class="mkt-nav" aria-label="Main navigation">
+        <a href="#how" class="mkt-nav-link">How it works</a>
+        <a href="privacy.html" class="mkt-nav-link">Privacy</a>
+        <a href="#for-couples" class="mkt-nav-link">For couples</a>
+        <a href="mailto:wojciech.rokosz@gmail.com?subject=TheDouble%20beta" class="mkt-btn mkt-btn-primary">Get your Double</a>
+      </nav>
+
+      <button class="mkt-menu-toggle" aria-controls="mkt-mobile-menu" aria-expanded="false">Menu</button>
+    </div>
   </header>
 
-  <main class="content">
-    <h1>Your Double.<br>A second you that&nbsp;remembers.</h1>
-    <p class="hero-promise">
-      TheDouble gives you an AI companion that knows your context, speaks with your trusted contacts' Doubles, and keeps your memories private to&nbsp;you.
-    </p>
+  <!-- ── MOBILE MENU ── -->
+  <div class="mkt-mobile-menu" id="mkt-mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="mkt-mobile-menu-inner">
+      <button class="mkt-mobile-close" aria-label="Close menu">Close</button>
+      <nav aria-label="Mobile navigation">
+        <a href="#how" class="mkt-mobile-link">How it works</a>
+        <a href="privacy.html" class="mkt-mobile-link">Privacy</a>
+        <a href="#for-couples" class="mkt-mobile-link">For couples</a>
+      </nav>
+      <a href="mailto:wojciech.rokosz@gmail.com?subject=TheDouble%20beta" class="mkt-btn mkt-btn-primary mkt-mobile-cta">Get your Double</a>
+    </div>
+  </div>
 
-    <nav class="hero-nav" aria-label="Legal pages">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="delete-account.html">Delete Your Account</a>
-      <a href="safety.html">Safety</a>
-      <a href="support.html">Support</a>
-    </nav>
+  <main id="main">
+    <!-- ── HERO ── -->
+    <section class="mkt-hero" aria-label="Hero">
+      <div class="mkt-hero-inner">
+        <div class="mkt-hero-lens" aria-hidden="true">
+          <svg class="mkt-hero-lens-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64">
+            <defs>
+              <clipPath id="hero-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            </defs>
+            <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#hero-lens)"/>
+            <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+            <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          </svg>
+        </div>
+        <h1 class="mkt-display">Your second self.</h1>
+        <p class="mkt-hero-sub">It learns how you think, remembers what matters, and quietly works on your behalf. Nothing shared without you.</p>
+        <div class="mkt-hero-actions">
+          <a href="mailto:wojciech.rokosz@gmail.com?subject=TheDouble%20beta" class="mkt-btn mkt-btn-primary">Get your Double</a>
+          <a href="#how" class="mkt-btn mkt-btn-outline">How it works</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOW IT WORKS ── -->
+    <section class="mkt-section mkt-editorial" id="how" aria-labelledby="how-heading">
+      <div class="mkt-section-inner">
+        <h2 class="mkt-section-heading" id="how-heading">How it works</h2>
+
+        <div class="mkt-prose-block">
+          <h3 class="mkt-passage-title">Talk</h3>
+          <p class="mkt-body">You speak with your Double the way you'd speak to someone who genuinely knows you. Over time it learns your tone, the things you care about, the rhythm of how you think. Not from a questionnaire — from conversation. It notices what you say and what you don't.</p>
+        </div>
+
+        <div class="mkt-prose-block">
+          <h3 class="mkt-passage-title">Remember</h3>
+          <p class="mkt-body">Your Double keeps your world: the people who matter, the plans you've made, the things you'd forget by morning. When something comes up — a name, a date, something you mentioned three months ago — it's there. Your memory, extended.</p>
+        </div>
+
+        <div class="mkt-prose-block">
+          <h3 class="mkt-passage-title">Work your network</h3>
+          <p class="mkt-body">When someone you know has a Double too, your Doubles can speak to each other quietly — comparing what's relevant, noticing what matches, finding what's worth surfacing. Then they bring back only what matters to you. The relationship stays yours. The friction disappears.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PULL QUOTE ── -->
+    <section class="mkt-pullquote-section" aria-label="Quote">
+      <div class="mkt-section-inner">
+        <blockquote class="mkt-pullquote">
+          <p>Nothing shared without you.</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ── PRIVACY ── -->
+    <section class="mkt-section mkt-editorial" id="privacy" aria-labelledby="privacy-heading">
+      <div class="mkt-section-inner">
+        <h2 class="mkt-section-heading" id="privacy-heading">Discretion is the design</h2>
+        <p class="mkt-body">Your Double knows things about you that you haven't told anyone else. That's the point — and that's exactly why it's designed to protect what you share. It withholds what was meant to stay private. It doesn't reveal surprises. It won't say things you'd regret. The discretion isn't a feature you configure; it's the default.</p>
+        <p class="mkt-body">When your Double talks to another Double, only what's relevant to the conversation passes through — and only with your implicit consent, set by the sharing settings you control. You decide what your Double represents about you. Nothing leaves without you knowing it could.</p>
+        <p class="mkt-body"><a href="privacy.html" class="mkt-inline-link">Read our full Privacy Policy</a></p>
+      </div>
+    </section>
+
+    <!-- ── FOR COUPLES ── -->
+    <section class="mkt-section mkt-editorial" id="for-couples" aria-labelledby="couples-heading">
+      <div class="mkt-section-inner">
+        <h2 class="mkt-section-heading" id="couples-heading">Built for two, first</h2>
+        <p class="mkt-body">TheDouble begins with the people who are already closest. A couple. A family. The relationships where trust is highest and the small, uncaptured moments matter most — the plan you forgot to mention, the thing you meant to share, the context that would have made a difference.</p>
+        <p class="mkt-body">When both people have a Double, those Doubles can work together quietly: noticing what connects, what's drifted, what might help. Not as surveillance, but as a shared second channel — one that helps you understand each other a little better without either of you having to explain everything from scratch.</p>
+        <div class="mkt-double-voice">
+          <p class="mkt-double-quote"><em>She mentioned last week that she's been tired lately. And he asked me this morning if she seemed okay. I brought them together.</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AVAILABILITY ── -->
+    <section class="mkt-section mkt-availability" id="beta" aria-labelledby="beta-heading">
+      <div class="mkt-section-inner">
+        <div class="mkt-availability-inner">
+          <h2 class="mkt-section-heading mkt-availability-heading" id="beta-heading">In private beta</h2>
+          <p class="mkt-body">Available now on iOS via TestFlight and Android via Google Play beta. A small group of couples are helping shape what TheDouble becomes. If you'd like to be part of it, reach out.</p>
+          <a href="mailto:wojciech.rokosz@gmail.com?subject=TheDouble%20beta" class="mkt-btn mkt-btn-primary">Join the beta</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <a href="privacy.html">Privacy</a>
-    <a href="terms.html">Terms</a>
-    <a href="delete-account.html">Delete Account</a>
-    <a href="safety.html">Safety</a>
-    <a href="support.html">Support</a>
+  <!-- ── FOOTER ── -->
+  <footer class="mkt-footer" role="contentinfo">
+    <div class="mkt-footer-inner">
+      <div class="mkt-footer-lockup">
+        <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+          </defs>
+          <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
+          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+        </svg>
+        <span class="mkt-footer-wordmark">TheDouble</span>
+      </div>
+
+      <nav class="mkt-footer-nav" aria-label="Footer navigation">
+        <div class="mkt-footer-col">
+          <p class="mkt-footer-col-label">Product</p>
+          <a href="#how" class="mkt-footer-link">How it works</a>
+          <a href="mailto:wojciech.rokosz@gmail.com?subject=TheDouble%20beta" class="mkt-footer-link">Beta</a>
+        </div>
+        <div class="mkt-footer-col">
+          <p class="mkt-footer-col-label">Legal</p>
+          <a href="privacy.html" class="mkt-footer-link">Privacy</a>
+          <a href="terms.html" class="mkt-footer-link">Terms</a>
+          <a href="delete-account.html" class="mkt-footer-link">Account deletion</a>
+          <a href="safety.html" class="mkt-footer-link">Safety</a>
+        </div>
+        <div class="mkt-footer-col">
+          <p class="mkt-footer-col-label">Contact</p>
+          <a href="support.html" class="mkt-footer-link">Support</a>
+          <a href="mailto:wojciech.rokosz@gmail.com" class="mkt-footer-link">wojciech.rokosz@gmail.com</a>
+        </div>
+      </nav>
+
+      <p class="mkt-footer-signoff">Nothing shared without you.</p>
+    </div>
   </footer>
+
+  <script>
+    // Mobile menu toggle — minimal progressive JS
+    (function () {
+      var toggle = document.querySelector('.mkt-menu-toggle');
+      var menu = document.getElementById('mkt-mobile-menu');
+      var close = document.querySelector('.mkt-mobile-close');
+      var links = menu ? menu.querySelectorAll('.mkt-mobile-link, .mkt-mobile-cta') : [];
+
+      function openMenu() {
+        menu.classList.add('is-open');
+        menu.setAttribute('aria-hidden', 'false');
+        toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        close.focus();
+      }
+
+      function closeMenu() {
+        menu.classList.remove('is-open');
+        menu.setAttribute('aria-hidden', 'true');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        toggle.focus();
+      }
+
+      if (toggle && menu && close) {
+        toggle.addEventListener('click', openMenu);
+        close.addEventListener('click', closeMenu);
+        links.forEach(function (link) {
+          link.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
