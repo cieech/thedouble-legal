@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --canvas:#F6F3ED;--sidebar-bg:#F1EDE3;--sidebar-w:232px;
+  --border:#E3DCCF;--text:#211E1A;--text2:#57514A;--text3:#8A8177;
+  --teal:#1F6E66;--teal-deep:#14524C;--teal-field:#DCE9E6;
+  --positive:#2E7D4F;--caution:#9A6B2F;--critical:#A44A3D;
+  --mono:ui-monospace,Menlo,monospace;
+  --ui:system-ui,-apple-system,"SF Pro","Roboto Flex",sans-serif;
+  --card-bg:#FCFAF5;--recessed:#EDE8DE;
+  --elevation1:0 1px 2px rgba(33,30,26,.06),0 4px 16px rgba(33,30,26,.06);
+}
+body{background:var(--canvas);color:var(--text);font-family:var(--ui);font-size:14px;line-height:1.5;min-height:100vh;display:flex}
+
+/* SIDEBAR */
+#sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--sidebar-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:0 12px 24px}
+#wordmark{display:flex;align-items:center;gap:10px;padding:20px 4px 24px;font-size:15px;font-weight:600;color:var(--teal-deep)}
+#wordmark svg{flex-shrink:0}
+nav a{display:flex;align-items:center;height:36px;padding:0 10px;border-radius:8px;text-decoration:none;color:var(--text2);font-size:13px;cursor:pointer;transition:background 120ms}
+nav a:hover{background:var(--recessed)}
+nav a.active{background:var(--teal-field);color:var(--teal-deep);font-weight:600}
+#user-info{margin-top:auto;padding:12px 4px 0;font-size:12px;color:var(--text3);word-break:break-all}
+#signout-btn{margin-top:8px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text2);width:100%}
+#signout-btn:hover{background:var(--recessed)}
+
+/* MAIN */
+#main{flex:1;max-width:calc(1440px - var(--sidebar-w));padding:32px 40px;overflow-x:auto}
+h1{font-size:18px;font-weight:600;margin-bottom:24px;color:var(--text)}
+h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:12px;font-family:var(--mono)}
+
+/* STAT CARDS */
+.cards{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:32px}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 24px;min-width:148px;box-shadow:var(--elevation1)}
+.card-label{font-size:12px;color:var(--text3);font-weight:500;margin-bottom:6px}
+.card-value{font-size:26px;font-weight:600;color:var(--text);font-family:var(--mono)}
+.card-delta{font-size:12px;color:var(--text3);margin-top:4px}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--card-bg)}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--sidebar-bg);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--recessed)}
+tbody td{font-size:13px;padding:0 14px;height:40px;color:var(--text);vertical-align:middle}
+td.mono{font-family:var(--mono);font-size:12px}
+td.dim{color:var(--text3);font-size:12px}
+
+/* TRUST DOTS */
+.dot{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+.dot::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.positive{color:var(--positive)}.dot.positive::before{background:var(--positive)}
+.dot.caution{color:var(--caution)}.dot.caution::before{background:var(--caution)}
+.dot.critical{color:var(--critical)}.dot.critical::before{background:var(--critical)}
+.dot.neutral{color:var(--text3)}.dot.neutral::before{background:var(--text3)}
+
+/* BUTTONS */
+.btn{border:none;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:var(--ui);font-weight:500;transition:opacity 120ms}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-ghost{background:var(--recessed);color:var(--text2)}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:var(--canvas);display:flex;align-items:center;justify-content:center;z-index:100}
+#login-box{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:40px;width:360px;box-shadow:var(--elevation1)}
+#login-box h1{margin-bottom:6px}
+#login-box p{font-size:13px;color:var(--text3);margin-bottom:24px}
+#login-email{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:14px;font-family:var(--ui);outline:none;background:#fff;margin-bottom:12px}
+#login-email:focus{border-color:var(--teal)}
+#login-msg{margin-top:12px;font-size:13px;color:var(--text3)}
+
+/* NOTICES */
+.notice{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px}
+.notice.warn{background:#FFF3DC;color:var(--caution);border:1px solid #E5C882}
+.notice.err{background:#FDE8E5;color:var(--critical);border:1px solid #D98B82}
+.notice.ok{background:#E5F3EC;color:var(--positive);border:1px solid #8DBBA1}
+
+/* TRANSCRIPT */
+#transcript-panel{margin-top:24px}
+.msg-row{padding:8px 0;border-bottom:1px solid var(--border)}
+.msg-row:last-child{border-bottom:none}
+.msg-speaker{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:2px;font-family:var(--mono);text-transform:uppercase}
+.msg-text{font-size:13px;color:var(--text)}
+
+.loading{color:var(--text3);font-size:13px;padding:16px 0}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" style="display:none">
+  <div id="login-box">
+    <h1>Double Admin</h1>
+    <p>Enter your email to receive a magic link.</p>
+    <input id="login-email" type="email" placeholder="voytek@thedouble.app" autocomplete="email">
+    <button class="btn btn-primary" style="width:100%" onclick="sendMagicLink()">Send magic link</button>
+    <div id="login-msg"></div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app-shell" style="display:none">
+  <div id="sidebar">
+    <div id="wordmark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" width="32" height="21">
+        <defs><clipPath id="lens"><circle cx="36" cy="32" r="26"/></clipPath></defs>
+        <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#lens)"/>
+        <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+        <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+      </svg>
+      Admin
+    </div>
+    <nav>
+      <a data-section="overview" onclick="nav(this)">Overview</a>
+      <a data-section="candidates" onclick="nav(this)">Value Engine</a>
+      <a data-section="reports" onclick="nav(this)">Reports</a>
+      <a data-section="health" onclick="nav(this)">Doubles health</a>
+      <a data-section="conversations" onclick="nav(this)">Conversations</a>
+    </nav>
+    <div id="user-info"></div>
+    <button id="signout-btn" onclick="signOut()">Sign out</button>
+  </div>
+  <div id="main">
+    <div id="content"><div class="loading">Select a section from the sidebar.</div></div>
+  </div>
+</div>
+
+<script>
+var SUPABASE_URL = "${SUPABASE_URL}";
+var ANON_KEY = "${ANON_KEY}";
+var API_URL = "https://vdpgexbrvtygdkffznog.supabase.co/functions/v1/admin-api";
+
+var sb = supabase.createClient(SUPABASE_URL, ANON_KEY);
+var session = null;
+
+async function init() {
+  var hash = window.location.hash;
+  if (hash.includes("access_token=")) {
+    var r = await sb.auth.getSession();
+    if (r.data && r.data.session) {
+      session = r.data.session;
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  } else {
+    var r2 = await sb.auth.getSession();
+    session = (r2.data && r2.data.session) ? r2.data.session : null;
+  }
+  if (!session) { showLogin(); } else { showApp(); }
+}
+
+function showLogin() {
+  document.getElementById("login-screen").style.display = "flex";
+  document.getElementById("app-shell").style.display = "none";
+}
+
+function showApp() {
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("app-shell").style.display = "flex";
+  document.getElementById("user-info").textContent = session.user ? session.user.email : "";
+  var first = document.querySelector("nav a[data-section='overview']");
+  if (first) nav(first);
+}
+
+async function sendMagicLink() {
+  var email = document.getElementById("login-email").value.trim();
+  var msg = document.getElementById("login-msg");
+  if (!email) { msg.textContent = "Enter your email."; return; }
+  msg.textContent = "Sending...";
+  var r = await sb.auth.signInWithOtp({ email: email });
+  if (r.error) { msg.textContent = "Error: " + r.error.message; }
+  else { msg.textContent = "Check your inbox for the magic link."; }
+}
+
+async function signOut() {
+  await sb.auth.signOut();
+  session = null;
+  showLogin();
+}
+
+function nav(el) {
+  document.querySelectorAll("nav a").forEach(function(a) { a.classList.remove("active"); });
+  el.classList.add("active");
+  loadSection(el.dataset.section);
+}
+
+async function apiFetch(params, opts) {
+  opts = opts || {};
+  var url = new URL(API_URL);
+  Object.keys(params).forEach(function(k) { url.searchParams.set(k, params[k]); });
+  var res = await fetch(url.toString(), {
+    method: opts.method || "GET",
+    headers: {
+      "Authorization": "Bearer " + session.access_token,
+      "Content-Type": "application/json"
+    },
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if (res.status === 403) throw new Error("not_authorized");
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function loadSection(section) {
+  var content = document.getElementById("content");
+  content.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    var data = await apiFetch({ section: section });
+    if (section === "overview") content.innerHTML = renderOverview(data);
+    else if (section === "candidates") content.innerHTML = renderCandidates(data);
+    else if (section === "reports") content.innerHTML = renderReports(data);
+    else if (section === "health") content.innerHTML = renderHealth(data);
+    else if (section === "conversations") content.innerHTML = renderConversations(data);
+  } catch(e) {
+    if (e.message === "not_authorized") {
+      content.innerHTML = '<div class="notice err">Not authorized. Your account is not on the admin allowlist.</div>';
+    } else {
+      content.innerHTML = '<div class="notice err">Error: ' + esc(e.message) + '</div>';
+    }
+  }
+}
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function relTime(iso) {
+  if (!iso) return "never";
+  var d = Date.now() - new Date(iso).getTime();
+  var h = Math.round(d / 3600000);
+  if (h < 1) return "just now";
+  if (h < 24) return h + "h ago";
+  return Math.round(h / 24) + "d ago";
+}
+
+function dot(status, label) {
+  var cls = status === "positive" ? "positive" : status === "caution" ? "caution" : status === "critical" ? "critical" : "neutral";
+  return '<span class="dot ' + cls + '">' + esc(label) + '</span>';
+}
+
+// OVERVIEW
+function renderOverview(d) {
+  var m = d.metrics || {};
+  var cards = [
+    { label: "Real users", value: m.total_users || 0, delta: "+" + (m.new_users_7d || 0) + " this week" },
+    { label: "Active today", value: m.active_today || 0, delta: (m.messages_today || 0) + " messages" },
+    { label: "D2D conversations", value: m.d2d_conversations_7d || 0, delta: "last 7 days" },
+    { label: "Reflect runs", value: m.reflect_runs_7d || 0, delta: "last 7 days" },
+    { label: "Waitlist", value: d.waitlist_count || 0, delta: "signups" },
+    { label: "Spend today", value: "$" + (d.spend_today_usd || 0).toFixed(4), delta: "$" + (d.spend_7d_usd || 0).toFixed(3) + " this week" }
+  ];
+  var html = '<h1>Overview</h1><div class="cards">';
+  cards.forEach(function(c) {
+    html += '<div class="card"><div class="card-label">' + esc(c.label) + '</div>'
+      + '<div class="card-value">' + esc(String(c.value)) + '</div>'
+      + '<div class="card-delta">' + esc(c.delta) + '</div></div>';
+  });
+  html += '</div>';
+
+  var ca = d.canary || {};
+  var canaryClass = ca.status === "positive" ? "ok" : ca.status === "caution" ? "warn" : "err";
+  html += '<h2>Credits canary</h2>'
+    + '<div class="notice ' + canaryClass + '">'
+    + dot(ca.status, ca.status || "no data") + ' '
+    + 'Last successful LLM call: ' + relTime(ca.newest_success_at)
+    + (ca.newest_failed_at ? ' &middot; Last refused: ' + relTime(ca.newest_failed_at) : '')
+    + '</div>';
+
+  var health = d.health || [];
+  if (health.length) {
+    html += '<h2 style="margin-top:24px">Cron health (last 20 runs)</h2><div class="tbl-wrap"><table>'
+      + '<thead><tr><th>Job</th><th>Status</th><th>Started</th></tr></thead><tbody>';
+    health.forEach(function(h) {
+      var st = h.status === "succeeded" ? "positive" : h.status === "running" ? "caution" : "critical";
+      html += '<tr><td class="mono">' + esc(h.jobname) + '</td>'
+        + '<td>' + dot(st, h.status) + '</td>'
+        + '<td class="dim">' + relTime(h.start_time) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  return html;
+}
+
+// VALUE ENGINE
+function renderCandidates(d) {
+  var rows = d.candidates || [];
+  var html = '<h1>Value Engine</h1>'
+    + '<div class="card-delta" style="margin-bottom:16px">' + rows.length + ' candidates (last 100)</div>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>User</th><th>Score</th><th>Status</th><th>Channel</th><th>Source</th><th>Text</th><th>Rationale</th><th>Created</th></tr></thead><tbody>';
+  rows.forEach(function(c) {
+    var score = c.score || 0;
+    var scoreSt = score >= 8 ? "positive" : score >= 5 ? "caution" : "critical";
+    var statusSt = c.status === "sent" ? "positive" : c.status === "pending" ? "caution" : "neutral";
+    html += '<tr>'
+      + '<td>' + esc(c.user_name || c.user_id.slice(0,8))
+        + (c.user_tag ? ' <span style="color:var(--text3);font-size:11px">' + esc(c.user_tag) + '</span>' : '')
+        + '</td>'
+      + '<td>' + dot(scoreSt, String(score)) + '</td>'
+      + '<td>' + dot(statusSt, c.status) + '</td>'
+      + '<td class="mono">' + esc(c.channel) + '</td>'
+      + '<td class="mono">' + esc(c.source) + '</td>'
+      + '<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(c.text) + '</td>'
+      + '<td class="dim" style="max-width:180px">' + esc(c.rationale) + '</td>'
+      + '<td class="dim">' + relTime(c.created_at) + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+// REPORTS
+function renderReports(d) {
+  var rows = d.reports || [];
+  var html = '<h1>Reports</h1>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>Reporter</th><th>Message</th><th>Reason</th><th>Status</th><th>Filed</th><th>Action</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    var statusSt = r.status === "resolved" ? "positive" : "critical";
+    var resolveBtn = r.status !== "resolved"
+      ? '<button class="btn btn-primary" onclick="resolveReport(' + "'" + esc(r.id) + "'" + ')">Resolve</button>'
+      : '';
+    html += '<tr id="report-' + esc(r.id) + '">'
+      + '<td class="mono">' + esc(r.reporter_phone) + '</td>'
+      + '<td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(r.message_text) + '</td>'
+      + '<td>' + esc(r.reason) + '</td>'
+      + '<td>' + dot(statusSt, r.status) + '</td>'
+      + '<td class="dim">' + relTime(r.created_at) + '</td>'
+      + '<td>' + resolveBtn + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+async function resolveReport(id) {
+  try {
+    await apiFetch({ section: "reports" }, { method: "POST", body: { id: id, action: "resolve" } });
+    loadSection("reports");
+  } catch(e) {
+    alert("Error: " + e.message);
+  }
+}
+
+// HEALTH
+function renderHealth(d) {
+  var rows = d.health || [];
+  var html = '<h1>Doubles health</h1>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>Name</th><th>Phone</th><th>Memories</th><th>Last reflect</th><th>Last D2D</th><th>Pending Q</th><th>Candidates 7d</th><th>Max score</th></tr></thead><tbody>';
+  rows.forEach(function(r) {
+    var pendingSt = r.pending_question ? "caution" : "neutral";
+    var memSt = r.memories_count > 10 ? "positive" : r.memories_count > 3 ? "caution" : "critical";
+    html += '<tr>'
+      + '<td>' + esc(r.name) + '</td>'
+      + '<td class="mono">' + esc(r.phone) + '</td>'
+      + '<td>' + dot(memSt, String(r.memories_count)) + '</td>'
+      + '<td class="dim">' + relTime(r.last_reflect) + '</td>'
+      + '<td class="dim">' + relTime(r.last_d2d) + '</td>'
+      + '<td>' + dot(pendingSt, r.pending_question ? "yes" : "no") + '</td>'
+      + '<td class="mono">' + r.candidates_7d + '</td>'
+      + '<td class="mono">' + (r.candidates_max_score != null ? r.candidates_max_score : '-') + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+// CONVERSATIONS
+function renderConversations(d) {
+  var rows = d.conversations || [];
+  var html = '<h1>Conversations</h1>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>User A</th><th>User B</th><th>A msgs</th><th>B msgs</th><th>Digests</th><th>Status</th><th>Created</th><th></th></tr></thead><tbody>';
+  rows.forEach(function(c) {
+    var digestSt = c.has_digests ? "positive" : "neutral";
+    html += '<tr>'
+      + '<td>' + esc(c.user_a_name) + '</td>'
+      + '<td>' + esc(c.user_b_name) + '</td>'
+      + '<td class="mono">' + c.user_a_msg_count + '</td>'
+      + '<td class="mono">' + c.user_b_msg_count + '</td>'
+      + '<td>' + dot(digestSt, c.has_digests ? "yes" : "no") + '</td>'
+      + '<td class="mono">' + esc(c.status) + '</td>'
+      + '<td class="dim">' + relTime(c.created_at) + '</td>'
+      + '<td><button class="btn btn-ghost" onclick="loadTranscript(' + "'" + esc(c.id) + "'" + ')">View</button></td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div><div id="transcript-panel"></div>';
+  return html;
+}
+
+async function loadTranscript(id) {
+  var panel = document.getElementById("transcript-panel");
+  if (!panel) return;
+  panel.innerHTML = '<div class="loading">Loading transcript...</div>';
+  try {
+    var data = await apiFetch({ section: "conversations", transcript: id });
+    var msgs = data.transcript || [];
+    var html = '<h2 style="margin-top:24px">Transcript</h2><div class="tbl-wrap" style="padding:16px">';
+    msgs.forEach(function(m) {
+      html += '<div class="msg-row">'
+        + '<div class="msg-speaker">' + esc(m.speaker) + ' &middot; turn ' + m.turn + '</div>'
+        + '<div class="msg-text">' + esc(m.text) + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+    panel.innerHTML = html;
+  } catch(e) {
+    panel.innerHTML = '<div class="notice err">Error: ' + esc(e.message) + '</div>';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
