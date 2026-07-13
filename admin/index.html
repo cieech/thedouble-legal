@@ -119,6 +119,8 @@ td.dim{color:var(--text3);font-size:12px}
     </div>
     <nav>
       <a data-section="overview" onclick="nav(this)">Overview</a>
+      <a data-section="outcomes" onclick="nav(this)">Outcomes</a>
+      <a data-section="users" onclick="nav(this)">Users</a>
       <a data-section="candidates" onclick="nav(this)">Value Engine</a>
       <a data-section="reports" onclick="nav(this)">Reports</a>
       <a data-section="health" onclick="nav(this)">Doubles health</a>
@@ -211,8 +213,16 @@ async function loadSection(section) {
   var content = document.getElementById("content");
   content.innerHTML = '<div class="loading">Loading...</div>';
   try {
-    var data = await apiFetch({ section: section });
+    var params = { section: section };
+    if (section === "outcomes") {
+      Object.keys(outcomeFilters).forEach(function(k) {
+        if (outcomeFilters[k]) params[k] = outcomeFilters[k];
+      });
+    }
+    var data = await apiFetch(params);
     if (section === "overview") content.innerHTML = renderOverview(data);
+    else if (section === "outcomes") content.innerHTML = renderOutcomes(data);
+    else if (section === "users") content.innerHTML = renderUsers(data);
     else if (section === "candidates") content.innerHTML = renderCandidates(data);
     else if (section === "reports") content.innerHTML = renderReports(data);
     else if (section === "health") content.innerHTML = renderHealth(data);
@@ -264,6 +274,24 @@ function renderOverview(d) {
   });
   html += '</div>';
 
+  var oc = d.outcomes || {};
+  html += '<h2>Outcomes &amp; activation</h2><div class="cards">';
+  var pct = function(v) { return Math.round((v || 0) * 100) + "%"; };
+  var mix = oc.origin_mix || {};
+  var mixStr = Object.keys(mix).map(function(k) { return k + " " + mix[k]; }).join(" · ") || "none yet";
+  [
+    { label: "RO / WAU (7d)", value: oc.ro_wau != null ? oc.ro_wau : 0, delta: (oc.realized_7d || 0) + " realized / " + (oc.wau || 0) + " WAU" },
+    { label: "Activation rate", value: pct(oc.activation_rate), delta: "3 outcomes in 14d" },
+    { label: "Enhanced rate", value: pct(oc.enhanced_rate), delta: "incl. network outcome" },
+    { label: "Reversal rate", value: pct(oc.reversal_rate), delta: (oc.harmful_count || 0) + " harmful" },
+    { label: "Origin mix", value: "", delta: mixStr }
+  ].forEach(function(c) {
+    html += '<div class="card"><div class="card-label">' + esc(c.label) + '</div>'
+      + '<div class="card-value">' + esc(String(c.value)) + '</div>'
+      + '<div class="card-delta">' + esc(c.delta) + '</div></div>';
+  });
+  html += '</div>';
+
   var ca = d.canary || {};
   var canaryClass = ca.status === "positive" ? "ok" : ca.status === "caution" ? "warn" : "err";
   html += '<h2>Credits canary</h2>'
@@ -285,6 +313,114 @@ function renderOverview(d) {
     });
     html += '</tbody></table></div>';
   }
+  return html;
+}
+
+// OUTCOMES (3.0 O6: Outcome Explorer)
+var outcomeFilters = { status: "", origin: "" };
+
+function setOutcomeFilter(key, value) {
+  outcomeFilters[key] = value;
+  loadSection("outcomes");
+}
+
+function renderOutcomes(d) {
+  var rows = d.outcomes || [];
+  var statuses = ["", "detected", "probable", "realized", "durable", "failed", "reversed", "harmful"];
+  var origins = ["", "personal", "relationship", "network", "serendipity"];
+  var sel = function(key, opts, current) {
+    var h = '<select onchange="setOutcomeFilter(' + "'" + key + "'" + ', this.value)" style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;background:var(--card-bg);margin-right:8px">';
+    opts.forEach(function(o) {
+      h += '<option value="' + o + '"' + (o === current ? ' selected' : '') + '>' + (o || 'all ' + key) + '</option>';
+    });
+    return h + '</select>';
+  };
+  var html = '<h1>Outcomes</h1>'
+    + '<div style="margin-bottom:16px">' + sel("status", statuses, outcomeFilters.status) + sel("origin", origins, outcomeFilters.origin)
+    + '<span class="card-delta">' + rows.length + ' outcomes (newest 200)</span></div>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>User</th><th>Status</th><th>Origin</th><th>Category</th><th>Summary</th><th>Loop</th><th>Conf</th><th>Imp</th><th>Contrib</th><th>Evidence</th><th>Src</th><th>Created</th><th>Actions</th></tr></thead><tbody>';
+  rows.forEach(function(o) {
+    var st = (o.status === "realized" || o.status === "durable") ? "positive"
+      : (o.status === "probable" || o.status === "detected") ? "caution"
+      : "critical";
+    var actions = '';
+    var mk = function(action, label) {
+      return '<button class="btn btn-ghost" style="padding:3px 8px;font-size:11px;margin-right:4px" '
+        + 'onclick="outcomeAction(' + "'" + esc(o.id) + "','" + action + "'" + ')">' + label + '</button>';
+    };
+    if (o.status === "probable" || o.status === "detected") actions += mk("realize", "Realize") + mk("fail", "Fail");
+    if (o.status === "realized" || o.status === "durable") actions += mk("reverse", "Reverse") + mk("harmful", "Harmful");
+    if (o.status === "failed" || o.status === "reversed" || o.status === "harmful") actions += mk("restore_probable", "Restore");
+    html += '<tr>'
+      + '<td>' + esc(o.user_name || o.user_id.slice(0, 8))
+        + (o.user_tag ? ' <span style="color:var(--text3);font-size:11px">' + esc(o.user_tag) + '</span>' : '') + '</td>'
+      + '<td>' + dot(st, o.status) + (o.status_source === "manual" ? ' <span style="color:var(--text3);font-size:10px">manual</span>' : '') + '</td>'
+      + '<td class="mono">' + esc(o.origin) + '</td>'
+      + '<td class="mono">' + esc(o.category) + '</td>'
+      + '<td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(o.summary) + '">' + esc(o.summary) + '</td>'
+      + '<td class="dim" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(o.loop) + '">' + esc(o.loop || '-') + '</td>'
+      + '<td class="mono">' + (o.confidence != null ? Math.round(o.confidence * 100) / 100 : '-') + '</td>'
+      + '<td class="mono">' + (o.importance != null ? o.importance : '-') + '</td>'
+      + '<td class="mono">' + (o.double_contribution != null ? Math.round(o.double_contribution * 100) / 100 : '-') + '</td>'
+      + '<td class="dim" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(o.evidence) + '">'
+        + (o.evidence_level ? '[' + esc(o.evidence_level) + '] ' : '') + esc(o.evidence || '') + '</td>'
+      + '<td class="mono">' + esc(o.status_source) + '</td>'
+      + '<td class="dim">' + relTime(o.created_at) + '</td>'
+      + '<td style="white-space:nowrap">' + actions + '</td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+async function outcomeAction(id, action) {
+  try {
+    await apiFetch({ section: "outcomes" }, { method: "POST", body: { id: id, action: action } });
+    loadSection("outcomes");
+  } catch(e) {
+    alert("Error: " + e.message);
+  }
+}
+
+// USERS (3.0 O6: User Explorer light)
+function renderUsers(d) {
+  var rows = d.users || [];
+  var stateDot = function(state) {
+    var st = (state === "activated" || state === "enhanced" || state === "retained") ? "positive"
+      : (state === "new" || state === "learning") ? "caution"
+      : (state === "at_risk" || state === "weakening" || state === "dormant") ? "critical"
+      : "neutral";
+    return dot(st, state);
+  };
+  var html = '<h1>Users</h1>'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th>User</th><th>Days</th><th>State</th><th>Bucket</th><th>Progress</th><th>Network</th><th>Open loops</th><th>Recent outcomes</th><th>Recommended action</th></tr></thead><tbody>';
+  rows.forEach(function(u) {
+    var ra = u.recommended_action || {};
+    var listCell = function(items) {
+      if (!items || !items.length) return '<span class="dim">-</span>';
+      return items.map(function(x) {
+        return '<div style="font-size:12px;padding:2px 0;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(x) + '">' + esc(x) + '</div>';
+      }).join('');
+    };
+    html += '<tr>'
+      + '<td>' + esc(u.name || u.user_id.slice(0, 8))
+        + (u.tag ? ' <span style="color:var(--text3);font-size:11px">' + esc(u.tag) + '</span>' : '')
+        + '<div class="dim" style="font-size:11px">' + esc(u.phone) + '</div></td>'
+      + '<td class="mono">' + u.days_since_signup + '</td>'
+      + '<td>' + stateDot(u.lifecycle_state) + '</td>'
+      + '<td class="mono">' + esc(u.bucket) + '</td>'
+      + '<td class="mono">' + esc(u.activation_progress) + (u.meaningful_context ? '' : ' <span style="color:var(--critical);font-size:10px">no ctx</span>') + '</td>'
+      + '<td class="mono">' + u.network_rel_outcomes + '</td>'
+      + '<td>' + listCell(u.active_loops) + '</td>'
+      + '<td>' + listCell(u.recent_outcomes) + '</td>'
+      + '<td style="max-width:220px"><div style="font-size:12px;font-weight:600">' + esc(ra.recommended_action || '-') + '</div>'
+        + '<div class="dim" style="font-size:11px">' + esc(ra.primary_blocker || '') + '</div>'
+        + '<div class="dim" style="font-size:11px">' + esc(ra.reason || '') + '</div></td>'
+      + '</tr>';
+  });
+  html += '</tbody></table></div>';
   return html;
 }
 
