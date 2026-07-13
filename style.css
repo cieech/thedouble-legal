@@ -855,6 +855,14 @@ td {
     align-items: stretch;
   }
 
+  /* In a column flex the input's `flex: 1 1 200px` basis applies to HEIGHT,
+     ballooning the field to ~200px on phones (feedback #4). */
+  .mkt-wl-input {
+    flex: none;
+    width: 100%;
+    height: 48px;
+  }
+
   .mkt-wl-btn {
     width: 100%;
   }
