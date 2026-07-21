@@ -22,10 +22,12 @@
         <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
         </svg>
         <span class="mkt-wordmark-text">TheDouble</span>
       </a>
@@ -64,8 +66,8 @@
     <h3>No adult content</h3>
     <p>
       Your Double will not generate sexually explicit, violent, or otherwise harmful content.
-      These guardrails are enforced at the model level (Anthropic's Claude) and at the
-      application layer. Attempts to bypass them are logged and may result in account termination.
+      These guardrails are enforced at the model level (the leading language models of
+      our AI providers) and at the application layer. Attempts to bypass them are logged and may result in account termination.
     </p>
 
     <h3>Crisis-sensitive responses</h3>
@@ -92,9 +94,12 @@
     <h2>Discretion architecture</h2>
     <p>
       Your Double learns information about you through your conversations. This information
-      is private to you. Your Double will never reveal your private memories or insights
-      to another user's Double (or to anyone else) without your explicit consent.
-      Double-to-Double communication is scoped strictly to information you have chosen to share.
+      is private to you. In Double-to-Double conversations your Double shares only what
+      you would plainly be comfortable sharing, guided by the relationships you declare
+      and by built-in discretion rules (surprises, other people's secrets and sensitive
+      details stay back). When stakes are high, your Double asks you first. You can stop
+      any Double-to-Double relationship at any moment with one word ("przestań"), in
+      conversation or from the Trust screen.
     </p>
 
     <h2>Reporting AI messages</h2>
@@ -110,7 +115,7 @@
     <p>
       All reports are reviewed by a human. If a pattern of unsafe outputs is detected,
       we will take corrective action including adjusting system prompts or filing a
-      report with our AI provider (Anthropic).
+      report with our AI provider.
     </p>
 
     <h2>Human review</h2>
@@ -122,9 +127,10 @@
 
     <h2>Age requirement</h2>
     <p>
-      TheDouble requires users to be at least 16 years old. We rely on users to confirm
-      their age at onboarding. If you believe a minor under 16 is using the service,
-      please contact us so we can investigate and remove the account.
+      TheDouble requires users to be at least 16 years old. By creating an account you
+      accept the Terms of Service, which include this age requirement; there is no
+      separate age-verification step. If you believe a minor under 16 is using the
+      service, please contact us so we can investigate and remove the account.
     </p>
 
     <h2>Contact for safety concerns</h2>
@@ -145,10 +151,12 @@
         <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
         </svg>
         <span class="mkt-footer-wordmark">TheDouble</span>
       </div>

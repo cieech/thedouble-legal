@@ -22,10 +22,12 @@
         <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
         </svg>
         <span class="mkt-wordmark-text">TheDouble</span>
       </a>
@@ -70,7 +72,7 @@
       <li><strong>AI-derived memories and insights</strong> -- facts and preferences your Double learns from your conversations, stored as structured memory entries.</li>
       <li><strong>Push notification tokens</strong> -- device tokens used to deliver notifications; never shared with third parties for marketing.</li>
       <li><strong>Usage telemetry</strong> -- anonymised event data (e.g. feature interactions, error logs) used to improve the service. This data does not identify you individually.</li>
-      <li><strong>Double-to-Double shared information</strong> -- when you and a contact both use TheDouble, your Doubles may hold scheduled conversations with each other. During such conversations, your Double may share information it knows about you with your contact's Double, limited by your sharing settings and built-in discretion rules (for example, it withholds things intended to stay private, such as surprises). Any information your contact's Double learns in this way becomes part of that user's Double's memory, subject to their own privacy settings and the same discretion rules.</li>
+      <li><strong>Double-to-Double shared information</strong> -- when you and a contact both use TheDouble, your Doubles may hold scheduled conversations with each other. During such conversations, your Double may share information it knows about you with your contact's Double, within the global consent you give at onboarding (sharing what you would plainly be comfortable sharing, shaped by the relationships you declare) and built-in discretion rules (for example, it withholds things intended to stay private, such as surprises). Any information your contact's Double learns in this way becomes part of that user's Double's memory, subject to their own privacy settings and the same discretion rules.</li>
     </ul>
     <p>We do not collect your real name unless you choose to provide it in Settings. We do not collect precise location, payment data, or any data not listed above.</p>
 
@@ -80,13 +82,13 @@
       <li>Account authentication and security.</li>
       <li>Delivering push notifications about new messages.</li>
       <li>Improving service reliability and detecting bugs via anonymised telemetry.</li>
-      <li>Enabling Double-to-Double conversations -- facilitating scheduled exchanges between Doubles of mutual contacts, governed by each user's sharing settings and built-in discretion rules.</li>
+      <li>Enabling Double-to-Double conversations -- facilitating scheduled exchanges between Doubles of mutual contacts, governed by each user's consent, declared relationships and built-in discretion rules; either user can stop a given pair at any time.</li>
       <li>Complying with legal obligations.</li>
     </ul>
 
     <h2>3. Legal bases (GDPR Article 6)</h2>
     <ul>
-      <li><strong>Consent (Art. 6(1)(a))</strong> -- processing your messages and AI-derived memories; contact list access. You give this consent during onboarding and may withdraw it by deleting your account.</li>
+      <li><strong>Consent (Art. 6(1)(a))</strong> -- processing your messages and AI-derived memories; contact list access. You give this consent during onboarding and may withdraw it by deleting your account. Independently of that, you can stop Double-to-Double conversations with any individual contact at any time, in conversation or from the Trust screen, without deleting your account.</li>
       <li><strong>Legitimate interest (Art. 6(1)(f))</strong> -- anonymised usage telemetry and security logging, where our interest in improving and securing the service does not override your privacy rights.</li>
       <li><strong>Contract performance (Art. 6(1)(b))</strong> -- storing your phone number and processing it for authentication is necessary to deliver the service you have signed up for.</li>
     </ul>
@@ -141,8 +143,9 @@
     <h2>6. Retention</h2>
     <p>
       We retain your personal data for as long as your account is active.
-      When you delete your account, all personal data -- including your Double, memories,
-      messages, and profile -- is permanently deleted within <strong>30 days</strong>.
+      When you delete your account, all personal data -- including your Double, its memories,
+      what other users' Doubles learned from conversations with your Double, your messages,
+      chat media, and profile -- is permanently deleted within <strong>30 days</strong>.
       Anonymised, non-identifiable telemetry aggregates may be retained longer for
       service improvement purposes.
     </p>
@@ -160,7 +163,7 @@
     <ul>
       <li><strong>Right of access</strong> -- request a copy of the data we hold about you.</li>
       <li><strong>Right to rectification</strong> -- ask us to correct inaccurate data.</li>
-      <li><strong>Right to erasure ("right to be forgotten")</strong> -- request deletion of your data. You can do this directly in the app (Settings, Danger zone, Delete account) or by emailing us.</li>
+      <li><strong>Right to erasure ("right to be forgotten")</strong> -- request deletion of your data. You can do this directly in the app (Account, Settings, Delete account) or by emailing us.</li>
       <li><strong>Right to data portability</strong> -- receive your data in a structured, machine-readable format.</li>
       <li><strong>Right to withdraw consent</strong> -- withdraw your consent to AI processing at any time; this will require account deletion as the service cannot function without it.</li>
       <li><strong>Right to object</strong> -- object to processing based on legitimate interest.</li>
@@ -198,10 +201,12 @@
         <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
         </svg>
         <span class="mkt-footer-wordmark">TheDouble</span>
       </div>

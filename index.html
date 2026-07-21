@@ -29,10 +29,12 @@
         <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
         </svg>
         <span class="mkt-wordmark-text">TheDouble</span>
       </a>
@@ -68,11 +70,13 @@
         <div class="mkt-hero-lens" aria-hidden="true">
           <svg class="mkt-hero-lens-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64">
             <defs>
-              <clipPath id="hero-lens"><circle cx="36" cy="32" r="26"/></clipPath>
-            </defs>
-            <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#hero-lens)"/>
-            <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-            <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+            <clipPath id="hero-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="hero-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="hero-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
+          </defs>
+          <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#hero-lens)"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#hero-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#hero-lens-outR)"/>
           </svg>
         </div>
         <h1 class="mkt-display">Your second self.</h1>
@@ -135,7 +139,7 @@
       <div class="mkt-section-inner">
         <h2 class="mkt-section-heading" id="privacy-heading">Discretion is the design</h2>
         <p class="mkt-body">Your Double knows things about you that you haven't told anyone else. That's the point, and that's exactly why it is designed to protect what you share. It withholds what was meant to stay private. It won't say things you'd regret. The discretion isn't a feature you configure; it's the default.</p>
-        <p class="mkt-body">When your Double talks to another Double, only what's relevant to the conversation passes through, and only within the sharing settings you control. You decide what your Double represents about you. Nothing leaves without you knowing it could.</p>
+        <p class="mkt-body">When your Double talks to another Double, only what's relevant passes through: what you would plainly be comfortable sharing, shaped by the relationships you declare. When stakes are high, your Double asks you first, and one word stops any pair. Nothing leaves without you knowing it could.</p>
         <p class="mkt-body"><a href="privacy.html" class="mkt-inline-link">Read our full Privacy Policy</a></p>
       </div>
     </section>
@@ -174,10 +178,12 @@
         <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
         </svg>
         <span class="mkt-footer-wordmark">TheDouble</span>
       </div>

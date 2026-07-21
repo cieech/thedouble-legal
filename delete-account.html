@@ -22,10 +22,12 @@
         <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
         </svg>
         <span class="mkt-wordmark-text">TheDouble</span>
       </a>
@@ -64,9 +66,9 @@
 
     <div class="steps">
       <ol>
-        <li>Open the app and go to the <strong>Settings</strong> tab (bottom navigation bar).</li>
-        <li>Scroll down to the <strong>Danger zone</strong> section.</li>
-        <li>Tap <strong>Delete account</strong>.</li>
+        <li>Open the app and tap the <strong>person icon</strong> in the top-right corner of the chats list.</li>
+        <li>On the <strong>Account</strong> screen, open <strong>Settings</strong>.</li>
+        <li>Scroll to the bottom and tap <strong>Delete account</strong>.</li>
         <li>A confirmation dialog will appear. Type <strong>DELETE</strong> (all caps) in the text field.</li>
         <li>Tap the red <strong>Delete</strong> button to confirm.</li>
       </ol>
@@ -88,8 +90,9 @@
     <p>When your account is deleted, the following data is <strong>permanently erased</strong> within 30 days:</p>
     <ul>
       <li>Your AI Double and all its learned memories and insights.</li>
-      <li>All messages in your Double's conversation history.</li>
-      <li>Your profile (phone number, name, consents).</li>
+      <li>What other users' Doubles learned from conversations with your Double (removed automatically with your account).</li>
+      <li>All messages in your Double's conversation history and media you sent in chats.</li>
+      <li>Your profile (phone number, name, consents) and declared relationships.</li>
       <li>Your contact list data that you granted the app access to.</li>
       <li>Your push notification tokens.</li>
     </ul>
@@ -115,10 +118,12 @@
         <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
         </svg>
         <span class="mkt-footer-wordmark">TheDouble</span>
       </div>

@@ -22,10 +22,12 @@
         <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
         </svg>
         <span class="mkt-wordmark-text">TheDouble</span>
       </a>
@@ -119,7 +121,7 @@
     <h2>7. Termination</h2>
     <p>
       You may stop using the service and delete your account at any time via
-      Settings, Danger zone, Delete account, or by following the instructions at
+      Account, Settings, Delete account, or by following the instructions at
       <a href="delete-account.html">the account deletion page</a>.
       We may terminate your account for breach of these Terms. Upon termination,
       your data is deleted in accordance with our <a href="privacy.html">Privacy Policy</a>.
@@ -141,9 +143,10 @@
       additional rights that cannot be waived.
     </p>
     <p>
-      If you are a consumer in the EU, you may also use the European Commission's
-      Online Dispute Resolution platform at
-      <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
+      If you are a consumer in the EU and have a dispute we could not resolve,
+      contact us first at <a href="mailto:hello@thedouble.app">hello@thedouble.app</a>
+      with the subject "Dispute". You may also be entitled to use alternative
+      dispute resolution bodies available in your country of residence.
     </p>
 
     <h2>10. Changes to these Terms</h2>
@@ -167,10 +170,12 @@
         <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
           <defs>
             <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
           </defs>
           <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
-          <circle cx="60" cy="32" r="26" fill="none" stroke="#F6F3ED" stroke-width="2.4"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
         </svg>
         <span class="mkt-footer-wordmark">TheDouble</span>
       </div>

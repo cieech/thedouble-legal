@@ -110,10 +110,14 @@ td.dim{color:var(--text3);font-size:12px}
   <div id="sidebar">
     <div id="wordmark">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" width="32" height="21">
-        <defs><clipPath id="lens"><circle cx="36" cy="32" r="26"/></clipPath></defs>
-        <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#lens)"/>
-        <circle cx="36" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
-        <circle cx="60" cy="32" r="26" fill="none" stroke="#211E1A" stroke-width="2.4"/>
+        <defs>
+            <clipPath id="lens"><circle cx="36" cy="32" r="26"/></clipPath>
+            <mask id="lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+            <mask id="lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
+          </defs>
+          <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#lens)"/>
+          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#lens-outL)"/>
+          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#lens-outR)"/>
       </svg>
       Admin
     </div>
@@ -125,6 +129,11 @@ td.dim{color:var(--text3);font-size:12px}
       <a data-section="reports" onclick="nav(this)">Reports</a>
       <a data-section="health" onclick="nav(this)">Doubles health</a>
       <a data-section="conversations" onclick="nav(this)">Conversations</a>
+      <a data-section="config" onclick="nav(this)">Tuning</a>
+      <a data-section="runs" onclick="nav(this)">Runs</a>
+      <a data-section="funnels" onclick="nav(this)">Funnels</a>
+      <a data-section="memories" onclick="nav(this)">Memory</a>
+      <a data-section="relationships" onclick="nav(this)">Relationships</a>
     </nav>
     <div id="user-info"></div>
     <button id="signout-btn" onclick="signOut()">Sign out</button>
@@ -214,6 +223,12 @@ async function loadSection(section) {
   content.innerHTML = '<div class="loading">Loading...</div>';
   try {
     var params = { section: section };
+    if (section === "runs" && runsFilter) params.fn = runsFilter;
+    if (section === "memories") {
+      if (memFilters.user) params.user = memFilters.user;
+      if (memFilters.kind) params.kind = memFilters.kind;
+      if (memFilters.q) params.q = memFilters.q;
+    }
     if (section === "outcomes") {
       Object.keys(outcomeFilters).forEach(function(k) {
         if (outcomeFilters[k]) params[k] = outcomeFilters[k];
@@ -227,6 +242,11 @@ async function loadSection(section) {
     else if (section === "reports") content.innerHTML = renderReports(data);
     else if (section === "health") content.innerHTML = renderHealth(data);
     else if (section === "conversations") content.innerHTML = renderConversations(data);
+    else if (section === "config") content.innerHTML = renderConfig(data);
+    else if (section === "runs") content.innerHTML = renderRuns(data);
+    else if (section === "funnels") content.innerHTML = renderFunnels(data);
+    else if (section === "memories") content.innerHTML = renderMemories(data);
+    else if (section === "relationships") content.innerHTML = renderRelationships(data);
   } catch(e) {
     if (e.message === "not_authorized") {
       content.innerHTML = '<div class="notice err">Not authorized. Your account is not on the admin allowlist.</div>';
@@ -256,17 +276,38 @@ function dot(status, label) {
 }
 
 // OVERVIEW
+// ADM-02: overview sources arrive as {ok, data, error} envelopes —
+// an errored source renders as an error notice + dashes, never as zero.
 function renderOverview(d) {
-  var m = d.metrics || {};
+  var mB = d.metrics || {};
+  var eB = d.engagement || {};
+  var hB = d.health || {};
+  var ocB = d.outcomes || {};
+  var prov = d.spend_provenance || {};
+  var m = (mB.ok && mB.data) ? mB.data : {};
+  var oc = (ocB.ok && ocB.data) ? ocB.data : {};
+  var health = (hB.ok && hB.data) ? hB.data : [];
+  var spendOk = prov.ok !== false;
+
+  var html = '<h1>Overview</h1>';
+  [["metrics", mB], ["engagement", eB], ["cron health", hB], ["outcomes", ocB]].forEach(function(p) {
+    if (p[1].ok === false) {
+      html += '<div class="notice err">Source error (' + esc(p[0]) + '): ' + esc(p[1].error || 'unknown') + '</div>';
+    }
+  });
+  if (!spendOk) html += '<div class="notice err">Source error (llm_usage / spend): ' + esc(prov.error || 'unknown') + '</div>';
+
+  var mv = function(x) { return mB.ok === false ? "—" : (x || 0); };
   var cards = [
-    { label: "Real users", value: m.total_users || 0, delta: "+" + (m.new_users_7d || 0) + " this week" },
-    { label: "Active today", value: m.active_today || 0, delta: (m.messages_today || 0) + " messages" },
-    { label: "D2D conversations", value: m.d2d_conversations_7d || 0, delta: "last 7 days" },
-    { label: "Reflect runs", value: m.reflect_runs_7d || 0, delta: "last 7 days" },
-    { label: "Waitlist", value: d.waitlist_count || 0, delta: "signups" },
-    { label: "Spend today", value: "$" + (d.spend_today_usd || 0).toFixed(4), delta: "$" + (d.spend_7d_usd || 0).toFixed(3) + " this week" }
+    { label: "Real users", value: mv(m.total_users), delta: mB.ok === false ? "source error" : "+" + (m.new_users_7d || 0) + " this week" },
+    { label: "Active today", value: mv(m.active_today), delta: mB.ok === false ? "source error" : (m.messages_today || 0) + " messages" },
+    { label: "D2D conversations", value: mv(m.d2d_conversations_7d), delta: "last 7 days" },
+    { label: "Reflect runs", value: mv(m.reflect_runs_7d), delta: "last 7 days" },
+    { label: "Waitlist", value: d.waitlist_count == null ? "—" : d.waitlist_count, delta: "signups" },
+    { label: "Spend today", value: spendOk ? "$" + (d.spend_today_usd || 0).toFixed(4) : "—",
+      delta: spendOk ? "$" + (d.spend_7d_usd || 0).toFixed(3) + " / 7d · estymowane" : "source error" }
   ];
-  var html = '<h1>Overview</h1><div class="cards">';
+  html += '<div class="cards">';
   cards.forEach(function(c) {
     html += '<div class="card"><div class="card-label">' + esc(c.label) + '</div>'
       + '<div class="card-value">' + esc(String(c.value)) + '</div>'
@@ -274,35 +315,56 @@ function renderOverview(d) {
   });
   html += '</div>';
 
-  var oc = d.outcomes || {};
-  html += '<h2>Outcomes &amp; activation</h2><div class="cards">';
-  var pct = function(v) { return Math.round((v || 0) * 100) + "%"; };
-  var mix = oc.origin_mix || {};
-  var mixStr = Object.keys(mix).map(function(k) { return k + " " + mix[k]; }).join(" · ") || "none yet";
-  [
-    { label: "RO / WAU (7d)", value: oc.ro_wau != null ? oc.ro_wau : 0, delta: (oc.realized_7d || 0) + " realized / " + (oc.wau || 0) + " WAU" },
-    { label: "Activation rate", value: pct(oc.activation_rate), delta: "3 outcomes in 14d" },
-    { label: "Enhanced rate", value: pct(oc.enhanced_rate), delta: "incl. network outcome" },
-    { label: "Reversal rate", value: pct(oc.reversal_rate), delta: (oc.harmful_count || 0) + " harmful" },
-    { label: "Origin mix", value: "", delta: mixStr }
-  ].forEach(function(c) {
-    html += '<div class="card"><div class="card-label">' + esc(c.label) + '</div>'
-      + '<div class="card-value">' + esc(String(c.value)) + '</div>'
-      + '<div class="card-delta">' + esc(c.delta) + '</div></div>';
-  });
-  html += '</div>';
+  if (ocB.ok !== false) {
+    html += '<h2>Outcomes &amp; activation</h2><div class="cards">';
+    var pct = function(v) { return Math.round((v || 0) * 100) + "%"; };
+    var mix = oc.origin_mix || {};
+    var mixStr = Object.keys(mix).map(function(k) { return k + " " + mix[k]; }).join(" · ") || "none yet";
+    [
+      { label: "RO / WAU (7d)", value: oc.ro_wau != null ? oc.ro_wau : 0, delta: (oc.realized_7d || 0) + " realized / " + (oc.wau || 0) + " WAU" },
+      { label: "Activation rate", value: pct(oc.activation_rate), delta: "3 outcomes in 14d" },
+      { label: "Enhanced rate", value: pct(oc.enhanced_rate), delta: "incl. network outcome" },
+      { label: "Reversal rate", value: pct(oc.reversal_rate), delta: (oc.harmful_count || 0) + " harmful" },
+      { label: "Origin mix", value: "", delta: mixStr }
+    ].forEach(function(c) {
+      html += '<div class="card"><div class="card-label">' + esc(c.label) + '</div>'
+        + '<div class="card-value">' + esc(String(c.value)) + '</div>'
+        + '<div class="card-delta">' + esc(c.delta) + '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  // ADM-17 / H3: per-purpose spend readout, always labeled estymowane.
+  var byPurpose = d.spend_7d_by_purpose || [];
+  if (spendOk && byPurpose.length) {
+    html += '<h2>Spend by purpose — 7d (estymowane)</h2><div class="tbl-wrap"><table>'
+      + '<thead><tr><th>Purpose</th><th>Calls</th><th>USD (est.)</th><th>Pricing</th></tr></thead><tbody>';
+    byPurpose.forEach(function(p) {
+      var pricing = p.unknown_model_calls > 0
+        ? p.unknown_model_calls + " calls priced as sonnet fallback"
+        : "price table";
+      html += '<tr><td class="mono">' + esc(p.purpose) + '</td>'
+        + '<td class="mono">' + p.calls + '</td>'
+        + '<td class="mono">$' + (p.usd || 0).toFixed(4) + '</td>'
+        + '<td class="dim">' + esc(pricing) + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+    if (prov.basis) html += '<div class="card-delta" style="margin:6px 0 24px">Basis: ' + esc(prov.basis) + '</div>';
+    else html += '<div style="margin-bottom:24px"></div>';
+  }
 
   var ca = d.canary || {};
   var canaryClass = ca.status === "positive" ? "ok" : ca.status === "caution" ? "warn" : "err";
   html += '<h2>Credits canary</h2>'
     + '<div class="notice ' + canaryClass + '">'
     + dot(ca.status, ca.status || "no data") + ' '
-    + 'Last successful LLM call: ' + relTime(ca.newest_success_at)
-    + (ca.newest_failed_at ? ' &middot; Last refused: ' + relTime(ca.newest_failed_at) : '')
+    + (ca.error
+      ? 'Source error: ' + esc(ca.error)
+      : 'Last successful LLM call: ' + relTime(ca.newest_success_at)
+        + (ca.newest_failed_at ? ' &middot; Last refused: ' + relTime(ca.newest_failed_at) : ''))
     + '</div>';
 
-  var health = d.health || [];
-  if (health.length) {
+  if (hB.ok !== false && health.length) {
     html += '<h2 style="margin-top:24px">Cron health (last 20 runs)</h2><div class="tbl-wrap"><table>'
       + '<thead><tr><th>Job</th><th>Status</th><th>Started</th></tr></thead><tbody>';
     health.forEach(function(h) {
@@ -510,18 +572,143 @@ function renderHealth(d) {
 }
 
 // CONVERSATIONS
+var memFilters = { user: "", kind: "", q: "" };
+function setMemFilter(k, v) { memFilters[k] = v; loadSection("memories"); }
+
+function funnelTable(title, env) {
+  if (!env || !env.ok) return "<h3>" + esc(title) + '</h3><div class="notice err">Source error (' + esc(env && env.error || "?") + ")</div>";
+  var d = env.data || {};
+  var rows = (d.steps || []).map(function(st) {
+    return "<tr><td>" + esc(st.name) + "</td><td>" + esc(String(st.users)) + "</td><td>" +
+      esc(String(st.conv_pct)) + "%</td><td>" +
+      (st.median_hours_from_prev == null ? "—" : esc(String(st.median_hours_from_prev)) + "h") + "</td></tr>";
+  }).join("");
+  return "<h3>" + esc(title) + " <span class=muted>(n=" + esc(String(d.cohort_size)) + ")</span></h3>" +
+    '<table><thead><tr><th>Step</th><th>Users</th><th>Conv</th><th>Median od poprz.</th></tr></thead><tbody>' + rows + "</tbody></table>";
+}
+function renderFunnels(d) {
+  return "<h2>Funnels</h2>" +
+    funnelTable("Activation (signup → wymiana → aha → outcome)", d.activation) +
+    funnelTable("Invite (sent → joined → shared outcome)", d.invite) +
+    funnelTable("Loops (opened → realized)", d.loops);
+}
+
+function renderMemories(d) {
+  var userOpts = ['<option value="">— wybierz usera —</option>'].concat((d.users || []).map(function(u) {
+    return '<option value="' + esc(u.id) + '"' + (u.id === memFilters.user ? " selected" : "") + '>' +
+      esc(u.name || u.phone_number || u.id.slice(0, 8)) + "</option>";
+  })).join("");
+  var kinds = ["", "fact", "insight", "d2d_learning", "thread_learning"];
+  var kindOpts = kinds.map(function(k) {
+    return '<option value="' + k + '"' + (k === memFilters.kind ? " selected" : "") + '>' + (k || "all kinds") + "</option>";
+  }).join("");
+  var rows = (d.memories || []).map(function(m) {
+    return "<tr><td><code>" + esc(m.kind) + "</code></td><td>" + esc(m.text) + "</td><td>" +
+      esc(String(m.importance)) + "</td><td>" + esc(m.sensitivity) + "</td><td>" +
+      (m.source_user_id ? "od: " + esc(m.source_user_id.slice(0, 8)) : "—") + "</td><td><span class=muted>" +
+      esc((m.created_at || "").slice(0, 10)) + "</span></td></tr>";
+  }).join("");
+  return "<h2>Memory (czego Double si\u0119 uczy)</h2>" +
+    '<div class="notice">Ka\u017cdy odczyt jest logowany (black-box).</div>' +
+    '<p><select onchange="setMemFilter(\'user\', this.value)">' + userOpts + "</select> " +
+    '<select onchange="setMemFilter(\'kind\', this.value)">' + kindOpts + "</select> " +
+    '<input placeholder="szukaj\u2026" value="' + esc(memFilters.q) + '" onchange="setMemFilter(\'q\', this.value)"></p>' +
+    (memFilters.user
+      ? '<table><thead><tr><th>Kind</th><th>Text</th><th>Imp</th><th>Sens</th><th>Provenance</th><th>Created</th></tr></thead><tbody>' +
+        (rows || "<tr><td colspan=6>brak</td></tr>") + "</tbody></table>"
+      : "<p class=muted>Wybierz usera.</p>");
+}
+
+function perspCell(v) {
+  if (!v) return '<span class=muted>brak</span>';
+  return esc(v.kind || "?") + " · " + esc(v.openness || "?") + " · conf " + esc(String(v.confidence == null ? "?" : v.confidence)) +
+    (v.confirm_status ? " · " + esc(v.confirm_status) : "");
+}
+function renderRelationships(d) {
+  var rows = (d.pairs || []).map(function(p) {
+    return "<tr><td>" + esc(p.a_name) + " × " + esc(p.b_name) + "</td><td>" + esc(p.kind || "—") + "</td><td>" +
+      perspCell(p.a_view) + "</td><td>" + perspCell(p.b_view) + "</td><td>" +
+      (p.muted_by_a || p.muted_by_b ? "muted" : "—") + "</td><td>" +
+      (p.matched_at ? esc(p.matched_at.slice(0, 10)) : "—") + "</td><td>" +
+      (p.last_outcome_at ? esc(p.last_outcome_at.slice(0, 10)) : "—") + "</td></tr>";
+  }).join("");
+  return "<h2>Relationships (ADM-11)</h2>" +
+    '<table><thead><tr><th>Para</th><th>Pair kind</th><th>Perspektywa A</th><th>Perspektywa B</th><th>Mute</th><th>Matched</th><th>Ostatni outcome</th></tr></thead><tbody>' +
+    (rows || "<tr><td colspan=7>brak par</td></tr>") + "</tbody></table>";
+}
+
+var runsFilter = "";
+function setRunsFilter(v) { runsFilter = v; loadSection("runs"); }
+function renderRuns(d) {
+  var maxDur = Math.max.apply(null, (d.runs || []).map(function(r){ return r.duration_ms || 1; }).concat([1]));
+  var opts = ['<option value="">all functions</option>'].concat((d.functions || []).map(function(f){
+    return '<option value="' + esc(f) + '"' + (f === runsFilter ? " selected" : "") + '>' + esc(f) + '</option>';
+  })).join("");
+  var rows = (d.runs || []).map(function(r) {
+    var bar = Math.max(2, Math.round(100 * (r.duration_ms || 0) / maxDur));
+    return "<tr><td><code>" + esc(r.function_name) + "</code></td><td>" +
+      esc((r.started_at || "").slice(5, 16).replace("T", " ")) + "</td><td>" +
+      '<div style="background:#DCEFEA;height:10px;width:' + bar + 'px;display:inline-block;border-radius:3px"></div> ' +
+      esc(String(r.duration_ms)) + "ms</td><td>" + esc(String(r.users_touched)) + "</td><td>" +
+      esc(String(r.llm_calls)) + " / " + esc(String(r.est_tokens)) + ' <span class=muted>est.</span></td><td>' +
+      (r.errors_count ? '<b style="color:#A04A34">' + r.errors_count + "</b>" : "0") + "</td><td><span class=muted>" +
+      esc(JSON.stringify(r.summary)) + "</span></td></tr>";
+  }).join("");
+  return '<h2>Automation runs</h2>' +
+    '<p><select onchange="setRunsFilter(this.value)">' + opts + "</select></p>" +
+    '<table><thead><tr><th>Function</th><th>Started</th><th>Duration</th><th>Users</th><th>LLM calls / tokens</th><th>Errors</th><th>Summary</th></tr></thead><tbody>' +
+    (rows || '<tr><td colspan=7>no runs yet</td></tr>') + "</tbody></table>";
+}
+
+function renderConfig(d) {
+  var rows = (d.config || []).map(function(c) {
+    var val = JSON.stringify(c.value);
+    var input = c.value_type === "boolean"
+      ? '<select id="cfg-' + esc(c.key) + '"><option value="true"' + (c.value === true ? " selected" : "") + '>true</option><option value="false"' + (c.value === false ? " selected" : "") + '>false</option></select>'
+      : '<input id="cfg-' + esc(c.key) + '" type="number" step="any" value="' + esc(String(c.value)) + '" style="width:110px">';
+    return "<tr><td><code>" + esc(c.key) + "</code></td><td>" + input +
+      ' <button onclick="saveConfig(\'' + esc(c.key) + '\',\'' + esc(c.value_type) + '\')">Save</button></td><td>' +
+      esc(c.description) + "</td><td>" + esc(c.updated_by) + "<br><span class=muted>" +
+      esc((c.updated_at || "").slice(0, 16).replace("T", " ")) + "</span></td></tr>";
+  }).join("");
+  var hist = (d.history || []).map(function(h) {
+    return "<tr><td>" + esc((h.changed_at || "").slice(0, 16).replace("T", " ")) + "</td><td><code>" +
+      esc(h.key) + "</code></td><td>" + esc(JSON.stringify(h.old_value)) + " &rarr; " +
+      esc(JSON.stringify(h.new_value)) + "</td><td>" + esc(h.changed_by) + "</td></tr>";
+  }).join("");
+  return '<h2>Engine tuning</h2>' +
+    '<div class="notice">Zmiana ga\u0142ki dzia\u0142a w \u226460s (cache config w funkcjach). Warto\u015bci = \u017cywe zachowanie silnika.</div>' +
+    '<table><thead><tr><th>Key</th><th>Value</th><th>Description</th><th>Updated</th></tr></thead><tbody>' +
+    (rows || '<tr><td colspan=4>empty</td></tr>') + "</tbody></table>" +
+    "<h3>History (50)</h3>" +
+    '<table><thead><tr><th>When</th><th>Key</th><th>Change</th><th>By</th></tr></thead><tbody>' +
+    (hist || '<tr><td colspan=4>none yet</td></tr>') + "</tbody></table>";
+}
+
+async function saveConfig(key, valueType) {
+  var el = document.getElementById("cfg-" + key);
+  if (!el) return;
+  var value = valueType === "boolean" ? el.value === "true" : Number(el.value);
+  if (valueType === "number" && !isFinite(value)) { alert("Not a number"); return; }
+  if (!confirm("Set " + key + " = " + value + "?")) return;
+  try {
+    await apiFetch({ section: "config" }, { method: "POST", body: { key: key, value: value } });
+    loadSection("config");
+  } catch(e) { alert("Error: " + e.message); }
+}
+
 function renderConversations(d) {
   var rows = d.conversations || [];
   var html = '<h1>Conversations</h1>'
     + '<div class="tbl-wrap"><table>'
-    + '<thead><tr><th>User A</th><th>User B</th><th>A msgs</th><th>B msgs</th><th>Digests</th><th>Status</th><th>Created</th><th></th></tr></thead><tbody>';
+    + '<thead><tr><th>User A</th><th>User B</th><th>A turns</th><th>B turns</th><th>Digests</th><th>Status</th><th>Created</th><th></th></tr></thead><tbody>';
   rows.forEach(function(c) {
     var digestSt = c.has_digests ? "positive" : "neutral";
     html += '<tr>'
       + '<td>' + esc(c.user_a_name) + '</td>'
       + '<td>' + esc(c.user_b_name) + '</td>'
-      + '<td class="mono">' + c.user_a_msg_count + '</td>'
-      + '<td class="mono">' + c.user_b_msg_count + '</td>'
+      + '<td class="mono">' + c.user_a_turns + '</td>'
+      + '<td class="mono">' + c.user_b_turns + '</td>'
       + '<td>' + dot(digestSt, c.has_digests ? "yes" : "no") + '</td>'
       + '<td class="mono">' + esc(c.status) + '</td>'
       + '<td class="dim">' + relTime(c.created_at) + '</td>'
