@@ -23,9 +23,33 @@ body{background:var(--canvas);color:var(--text);font-family:var(--ui);font-size:
 #sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--sidebar-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;padding:0 12px 24px}
 #wordmark{display:flex;align-items:center;gap:10px;padding:20px 4px 24px;font-size:15px;font-weight:600;color:var(--teal-deep)}
 #wordmark svg{flex-shrink:0}
-nav a{display:flex;align-items:center;height:36px;padding:0 10px;border-radius:8px;text-decoration:none;color:var(--text2);font-size:13px;cursor:pointer;transition:background 120ms}
+nav a{display:flex;align-items:center;height:34px;padding:0 10px;border-radius:8px;text-decoration:none;color:var(--text2);font-size:13px;cursor:pointer;transition:background 120ms}
 nav a:hover{background:var(--recessed)}
 nav a.active{background:var(--teal-field);color:var(--teal-deep);font-weight:600}
+.nav-group{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:16px 10px 6px}
+
+/* KNOBS (Sterowanie) */
+.knob-group{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:20px;box-shadow:var(--elevation1);max-width:760px}
+.knob-group-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.knob-group-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
+.knob{display:flex;align-items:center;gap:14px;padding:10px 0;border-top:1px solid var(--border)}
+.knob:first-of-type{border-top:none}
+.knob-info{flex:1;min-width:0}
+.knob-label{font-size:13px;font-weight:500;color:var(--text)}
+.knob-desc{font-size:12px;color:var(--text3)}
+.knob-key{font-family:var(--mono);font-size:10px;color:var(--text3);opacity:.7}
+.knob-ctl{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.knob-ctl input[type=number]{width:96px;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;font-family:var(--mono);background:#fff}
+.switch{position:relative;width:44px;height:26px;flex-shrink:0;cursor:pointer}
+.switch input{opacity:0;width:0;height:0}
+.switch .track{position:absolute;inset:0;background:var(--recessed);border:1px solid var(--border);border-radius:13px;transition:background 150ms}
+.switch .track::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(33,30,26,.25);transition:transform 150ms}
+.switch input:checked + .track{background:var(--teal);border-color:var(--teal)}
+.switch input:checked + .track::after{transform:translateX(18px)}
+.knob-saved{font-size:12px;color:var(--positive);opacity:0;transition:opacity 200ms}
+.knob-saved.show{opacity:1}
+details.hist{max-width:760px;margin-top:8px}
+details.hist summary{cursor:pointer;font-size:13px;color:var(--text2);padding:8px 0}
 #user-info{margin-top:auto;padding:12px 4px 0;font-size:12px;color:var(--text3);word-break:break-all}
 #signout-btn{margin-top:8px;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text2);width:100%}
 #signout-btn:hover{background:var(--recessed)}
@@ -122,18 +146,22 @@ td.dim{color:var(--text3);font-size:12px}
       Admin
     </div>
     <nav>
-      <a data-section="overview" onclick="nav(this)">Overview</a>
+      <a data-section="overview" onclick="nav(this)">Puls</a>
+      <div class="nav-group">Sterowanie</div>
+      <a data-section="config" onclick="nav(this)">Zachowanie Double'i</a>
+      <div class="nav-group">Ludzie</div>
+      <a data-section="users" onclick="nav(this)">Użytkownicy</a>
+      <a data-section="memories" onclick="nav(this)">Pamięć</a>
+      <a data-section="relationships" onclick="nav(this)">Relacje</a>
+      <div class="nav-group">Silnik</div>
       <a data-section="outcomes" onclick="nav(this)">Outcomes</a>
-      <a data-section="users" onclick="nav(this)">Users</a>
       <a data-section="candidates" onclick="nav(this)">Value Engine</a>
-      <a data-section="reports" onclick="nav(this)">Reports</a>
-      <a data-section="health" onclick="nav(this)">Doubles health</a>
-      <a data-section="conversations" onclick="nav(this)">Conversations</a>
-      <a data-section="config" onclick="nav(this)">Tuning</a>
-      <a data-section="runs" onclick="nav(this)">Runs</a>
-      <a data-section="funnels" onclick="nav(this)">Funnels</a>
-      <a data-section="memories" onclick="nav(this)">Memory</a>
-      <a data-section="relationships" onclick="nav(this)">Relationships</a>
+      <a data-section="conversations" onclick="nav(this)">Rozmowy D2D</a>
+      <a data-section="runs" onclick="nav(this)">Przebiegi</a>
+      <a data-section="funnels" onclick="nav(this)">Funnele</a>
+      <a data-section="health" onclick="nav(this)">Zdrowie Double'i</a>
+      <div class="nav-group">Zaufanie</div>
+      <a data-section="reports" onclick="nav(this)">Zgłoszenia</a>
     </nav>
     <div id="user-info"></div>
     <button id="signout-btn" onclick="signOut()">Sign out</button>
@@ -660,41 +688,119 @@ function renderRuns(d) {
     (rows || '<tr><td colspan=7>no runs yet</td></tr>') + "</tbody></table>";
 }
 
+// \u2500\u2500 Sterowanie: knob metadata \u2014 surowe klucze env \u2192 ludzkie zachowania \u2500\u2500\u2500\u2500\u2500\u2500
+// Kolejno\u015b\u0107 grup = kolejno\u015b\u0107 na ekranie. Klucze spoza mapy l\u0105duj\u0105 w "Pozosta\u0142e".
+var KNOB_GROUPS = [
+  { id: "voice", title: "G\u0142os w w\u0105tku pary",
+    sub: "Double odzywa si\u0119 w rozmowie pary: potwierdza z\u0142apane ustalenia, dopytuje o szczeg\u00f3\u0142, przypomina przed terminem." },
+  { id: "brief", title: "Brief tygodniowy",
+    sub: "Raz na kilka dni Double pisze kr\u00f3tk\u0105 notk\u0119 ci\u0105g\u0142o\u015bci. Ma prawo do ciszy, gdy nic si\u0119 nie wydarzy\u0142o." },
+  { id: "stages", title: "Etapy zaanga\u017cowania",
+    sub: "Iskra (nowi) \u2192 Rytm \u2192 Dojrza\u0142o\u015b\u0107. Budgety = ile proaktywnych wiadomo\u015bci; pr\u00f3g = jak dobra musi by\u0107 wiadomo\u015b\u0107 (0-10)." },
+  { id: "costs", title: "Koszty i limity",
+    sub: "Bezpieczniki. Fail-open: awaria konfiguracji nigdy nie zatrzymuje silnika." },
+  { id: "other", title: "Pozosta\u0142e", sub: "Ga\u0142ki bez przypisanej grupy." }
+];
+var KNOB_META = {
+  THREAD_VOICE_ENABLED:    { g: "voice", l: "G\u0142os w\u0142\u0105czony", d: "G\u0142\u00f3wny w\u0142\u0105cznik: Double m\u00f3wi we wsp\u00f3lnym w\u0105tku (ask/confirm)." },
+  THREAD_REMIND_ENABLED:   { g: "voice", l: "Przypomnienia przed terminem", d: "Remind dla ustale\u0144 z deadlinem; kasuje si\u0119 po rozwi\u0105zaniu, nigdy po terminie." },
+  THREAD_VOICE_GAP_HOURS:  { g: "voice", l: "Minimalny odst\u0119p wtr\u0105ce\u0144", d: "Ile godzin ciszy mi\u0119dzy wtr\u0105ceniami Double'a w jednej parze.", u: "h" },
+  THREAD_REMIND_LEAD_HOURS:{ g: "voice", l: "Wyprzedzenie przypomnienia", d: "Ile godzin przed deadlinem remind mo\u017ce wystrzeli\u0107.", u: "h" },
+  SHARED_THREAD_ENABLED:   { g: "voice", l: "Wsp\u00f3lny w\u0105tek D2D", d: "Ustalenia Double'\u00f3w l\u0105duj\u0105 w rozmowie pary." },
+  SHARED_THRESHOLD:        { g: "voice", l: "Pr\u00f3g s\u0119dziego (D2D)", d: "Minimalna ocena 0-10, by ustalenie Double'\u00f3w trafi\u0142o do pary. Ni\u017cej = \u017cywiej.", u: "0-10" },
+  BRIEF_ENABLED:           { g: "brief", l: "Brief w\u0142\u0105czony", d: "Tygodniowa notka ci\u0105g\u0142o\u015bci od Double'a." },
+  BRIEF_MIN_DAYS:          { g: "brief", l: "Kadencja briefu", d: "Minimalna liczba dni mi\u0119dzy briefami. 0 = mo\u017ce od r\u0119ki.", u: "dni" },
+  ISKRA_DAILY:             { g: "stages", l: "Iskra: dziennie", d: "Limit proaktywnych wiadomo\u015bci na dob\u0119 (nowi userzy).", u: "msg" },
+  ISKRA_WEEKLY:            { g: "stages", l: "Iskra: tygodniowo", d: "Limit na 7 dni.", u: "msg" },
+  ISKRA_THRESHOLD:         { g: "stages", l: "Iskra: pr\u00f3g jako\u015bci", d: "Minimalna ocena s\u0119dziego 0-10.", u: "0-10" },
+  ISKRA_SPARK_WEIGHT:      { g: "stages", l: "Iskra: waga spark\u00f3w", d: "Udzia\u0142 iskrowych zaczepek w miksie." },
+  ISKRA_CALLBACK_WEIGHT:   { g: "stages", l: "Iskra: waga callback\u00f3w", d: "Udzia\u0142 powrot\u00f3w do w\u0105tk\u00f3w usera." },
+  RYTM_DAILY:              { g: "stages", l: "Rytm: dziennie", d: "Limit na dob\u0119 (userzy w rytmie).", u: "msg" },
+  RYTM_WEEKLY:             { g: "stages", l: "Rytm: tygodniowo", d: "Limit na 7 dni.", u: "msg" },
+  RYTM_THRESHOLD:          { g: "stages", l: "Rytm: pr\u00f3g jako\u015bci", d: "Minimalna ocena s\u0119dziego 0-10.", u: "0-10" },
+  DOJRZ_DAILY:             { g: "stages", l: "Dojrza\u0142o\u015b\u0107: dziennie", d: "Limit na dob\u0119 (dojrzali userzy).", u: "msg" },
+  DOJRZ_WEEKLY:            { g: "stages", l: "Dojrza\u0142o\u015b\u0107: tygodniowo", d: "Limit na 7 dni.", u: "msg" },
+  DOJRZ_THRESHOLD:         { g: "stages", l: "Dojrza\u0142o\u015b\u0107: pr\u00f3g jako\u015bci", d: "Minimalna ocena s\u0119dziego 0-10.", u: "0-10" },
+  LLM_USER_DAILY_TOKENS:   { g: "costs", l: "Cap token\u00f3w / user / 24h", d: "Bezpiecznik kosztowy. Po przekroczeniu Double grzecznie milknie do jutra.", u: "tok" },
+  CONVERSE_BATCH_CAP:      { g: "costs", l: "Batch rozm\u00f3w D2D", d: "Ile par na jeden przebieg converse (limit zasob\u00f3w workera).", u: "par" }
+};
+
 function renderConfig(d) {
-  var rows = (d.config || []).map(function(c) {
-    var val = JSON.stringify(c.value);
-    var input = c.value_type === "boolean"
-      ? '<select id="cfg-' + esc(c.key) + '"><option value="true"' + (c.value === true ? " selected" : "") + '>true</option><option value="false"' + (c.value === false ? " selected" : "") + '>false</option></select>'
-      : '<input id="cfg-' + esc(c.key) + '" type="number" step="any" value="' + esc(String(c.value)) + '" style="width:110px">';
-    return "<tr><td><code>" + esc(c.key) + "</code></td><td>" + input +
-      ' <button onclick="saveConfig(\'' + esc(c.key) + '\',\'' + esc(c.value_type) + '\')">Save</button></td><td>' +
-      esc(c.description) + "</td><td>" + esc(c.updated_by) + "<br><span class=muted>" +
-      esc((c.updated_at || "").slice(0, 16).replace("T", " ")) + "</span></td></tr>";
-  }).join("");
+  var byGroup = {};
+  (d.config || []).forEach(function(c) {
+    var meta = KNOB_META[c.key] || { g: "other", l: c.key, d: c.description || "" };
+    (byGroup[meta.g] = byGroup[meta.g] || []).push({ c: c, m: meta });
+  });
+  var html = '<h1>Zachowanie Double\u2019i</h1>' +
+    '<div class="notice ok">Ka\u017cda zmiana dzia\u0142a w silniku w \u226460 sekund, bez deployu. To s\u0105 \u017cywe warto\u015bci.</div>';
+  KNOB_GROUPS.forEach(function(g) {
+    var knobs = byGroup[g.id];
+    if (!knobs || !knobs.length) return;
+    html += '<div class="knob-group"><div class="knob-group-title">' + g.title +
+      '</div><div class="knob-group-sub">' + g.sub + '</div>';
+    knobs.forEach(function(k) {
+      var c = k.c, m = k.m;
+      var ctl;
+      if (c.value_type === "boolean") {
+        ctl = '<label class="switch"><input type="checkbox" id="cfg-' + esc(c.key) + '"' +
+          (c.value === true ? " checked" : "") +
+          ' onchange="saveToggle(\'' + esc(c.key) + '\')"><span class="track"></span></label>';
+      } else {
+        ctl = '<input id="cfg-' + esc(c.key) + '" type="number" step="any" value="' + esc(String(c.value)) + '">' +
+          (m.u ? '<span class="dim" style="font-size:11px;color:var(--text3)">' + esc(m.u) + '</span>' : '') +
+          ' <button class="btn btn-ghost" onclick="saveConfig(\'' + esc(c.key) + '\',\'number\')">Zapisz</button>';
+      }
+      html += '<div class="knob"><div class="knob-info">' +
+        '<div class="knob-label">' + esc(m.l) + '</div>' +
+        '<div class="knob-desc">' + esc(m.d) + '</div>' +
+        '<div class="knob-key">' + esc(c.key) + ' \u00b7 ost. zmiana ' +
+        esc((c.updated_at || "").slice(0, 16).replace("T", " ")) + ' (' + esc(c.updated_by || "?") + ')</div>' +
+        '</div><div class="knob-ctl">' + ctl +
+        '<span class="knob-saved" id="saved-' + esc(c.key) + '">\u2713</span></div></div>';
+    });
+    html += '</div>';
+  });
   var hist = (d.history || []).map(function(h) {
-    return "<tr><td>" + esc((h.changed_at || "").slice(0, 16).replace("T", " ")) + "</td><td><code>" +
-      esc(h.key) + "</code></td><td>" + esc(JSON.stringify(h.old_value)) + " &rarr; " +
-      esc(JSON.stringify(h.new_value)) + "</td><td>" + esc(h.changed_by) + "</td></tr>";
+    var m = KNOB_META[h.key];
+    return "<tr><td class=dim>" + esc((h.changed_at || "").slice(0, 16).replace("T", " ")) + "</td><td>" +
+      esc(m ? m.l : h.key) + "</td><td class=mono>" + esc(JSON.stringify(h.old_value)) + " \u2192 " +
+      esc(JSON.stringify(h.new_value)) + "</td><td class=dim>" + esc(h.changed_by) + "</td></tr>";
   }).join("");
-  return '<h2>Engine tuning</h2>' +
-    '<div class="notice">Zmiana ga\u0142ki dzia\u0142a w \u226460s (cache config w funkcjach). Warto\u015bci = \u017cywe zachowanie silnika.</div>' +
-    '<table><thead><tr><th>Key</th><th>Value</th><th>Description</th><th>Updated</th></tr></thead><tbody>' +
-    (rows || '<tr><td colspan=4>empty</td></tr>') + "</tbody></table>" +
-    "<h3>History (50)</h3>" +
-    '<table><thead><tr><th>When</th><th>Key</th><th>Change</th><th>By</th></tr></thead><tbody>' +
-    (hist || '<tr><td colspan=4>none yet</td></tr>') + "</tbody></table>";
+  html += '<details class="hist"><summary>Historia zmian (50)</summary>' +
+    '<div class="tbl-wrap"><table><thead><tr><th>Kiedy</th><th>Ga\u0142ka</th><th>Zmiana</th><th>Kto</th></tr></thead><tbody>' +
+    (hist || '<tr><td colspan=4>jeszcze pusto</td></tr>') + "</tbody></table></div></details>";
+  return html;
+}
+
+function flashSaved(key) {
+  var el = document.getElementById("saved-" + key);
+  if (!el) return;
+  el.classList.add("show");
+  setTimeout(function() { el.classList.remove("show"); }, 1800);
+}
+
+async function saveToggle(key) {
+  var el = document.getElementById("cfg-" + key);
+  if (!el) return;
+  var value = el.checked;
+  try {
+    await apiFetch({ section: "config" }, { method: "POST", body: { key: key, value: value } });
+    flashSaved(key);
+  } catch(e) {
+    el.checked = !value;
+    alert("B\u0142\u0105d: " + e.message);
+  }
 }
 
 async function saveConfig(key, valueType) {
   var el = document.getElementById("cfg-" + key);
   if (!el) return;
   var value = valueType === "boolean" ? el.value === "true" : Number(el.value);
-  if (valueType === "number" && !isFinite(value)) { alert("Not a number"); return; }
-  if (!confirm("Set " + key + " = " + value + "?")) return;
+  if (valueType === "number" && !isFinite(value)) { alert("To nie liczba"); return; }
   try {
     await apiFetch({ section: "config" }, { method: "POST", body: { key: key, value: value } });
-    loadSection("config");
-  } catch(e) { alert("Error: " + e.message); }
+    flashSaved(key);
+  } catch(e) { alert("B\u0142\u0105d: " + e.message); }
 }
 
 function renderConversations(d) {
