@@ -900,3 +900,85 @@ td {
     gap: 24px;
   }
 }
+
+/* ── Hero product scene (fala C landing polish, 2026-07-21) ─────────────── */
+.mkt-scene {
+  margin: var(--td-space-4) auto 0;
+  max-width: 400px;
+  width: 100%;
+}
+.mkt-scene-phone {
+  background: var(--td-bg-card);
+  border: 1px solid var(--td-border-hairline);
+  border-radius: 22px;
+  padding: 18px 16px 20px;
+  box-shadow: 0 18px 40px -28px rgba(33, 30, 26, 0.35);
+  text-align: left;
+}
+.mkt-scene-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--td-border-hairline);
+  margin-bottom: 14px;
+}
+.mkt-scene-title {
+  font-family: var(--td-font-ui);
+  font-weight: 600;
+  color: var(--td-text-primary);
+  font-size: 15px;
+}
+.mkt-scene-presence {
+  font-family: var(--td-font-ui);
+  font-size: 12px;
+  color: var(--td-text-tertiary);
+}
+.mkt-scene-presence::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3F9B57;
+  margin-right: 5px;
+}
+.mkt-scene-bubbles { display: flex; flex-direction: column; gap: 8px; }
+.mkt-scene-row { display: flex; }
+.mkt-scene-row-me { justify-content: flex-end; }
+.mkt-bubble {
+  font-family: var(--td-font-ui);
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 9px 13px;
+  border-radius: 16px;
+  max-width: 85%;
+}
+.mkt-bubble-them {
+  background: var(--td-bg-recessed);
+  color: var(--td-text-primary);
+  border-bottom-left-radius: 6px;
+}
+.mkt-bubble-me {
+  background: var(--td-text-primary);
+  color: var(--td-bg-canvas);
+  border-bottom-right-radius: 6px;
+}
+.mkt-bubble-double {
+  background: var(--td-double-field);
+  color: var(--td-double-deep);
+  border-bottom-left-radius: 6px;
+}
+.mkt-scene-author {
+  font-family: var(--td-font-ui);
+  font-size: 12px;
+  color: var(--td-text-tertiary);
+  padding-left: 4px;
+}
+.mkt-scene-caption {
+  font-family: var(--td-font-ui);
+  font-size: 14px;
+  color: var(--td-text-secondary);
+  text-align: center;
+  margin-top: 14px;
+}
