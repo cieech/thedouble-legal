@@ -350,6 +350,10 @@ function renderOverview(d) {
     var mixStr = Object.keys(mix).map(function(k) { return k + " " + mix[k]; }).join(" · ") || "none yet";
     [
       { label: "RO / WAU (7d)", value: oc.ro_wau != null ? oc.ro_wau : 0, delta: (oc.realized_7d || 0) + " realized / " + (oc.wau || 0) + " WAU" },
+      // Fala D (D2): judge detections and human "this was valuable" taps are
+      // separate truths — the north star no longer hangs on the judge alone.
+      { label: "Detected (judge, 7d)", value: oc.detected_7d != null ? oc.detected_7d : 0, delta: "judge pipeline" },
+      { label: "Confirmed (user, 7d)", value: oc.confirmed_7d != null ? oc.confirmed_7d : 0, delta: (oc.confirmed_total || 0) + " total taps" },
       { label: "Activation rate", value: pct(oc.activation_rate), delta: "3 outcomes in 14d" },
       { label: "Enhanced rate", value: pct(oc.enhanced_rate), delta: "incl. network outcome" },
       { label: "Reversal rate", value: pct(oc.reversal_rate), delta: (oc.harmful_count || 0) + " harmful" },
