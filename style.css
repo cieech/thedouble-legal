@@ -901,84 +901,93 @@ td {
   }
 }
 
-/* ── Hero product scene (fala C landing polish, 2026-07-21) ─────────────── */
-.mkt-scene {
-  margin: var(--td-space-4) auto 0;
-  max-width: 400px;
+/* ── Hero value windows (fala W / W1, bramka 2026-08-20, wzór v9) ────────
+   Kanon: brandbook §3 (Kompozyt A), double-language.html (gramatyka dymków),
+   DS rozdz. 11 (web hero). Trzy wartości jedna pod drugą, każda = pełne okno. */
+.mkt-value {
   width: 100%;
-}
-.mkt-scene-phone {
-  background: var(--td-bg-card);
-  border: 1px solid var(--td-border-hairline);
-  border-radius: 22px;
-  padding: 18px 16px 20px;
-  box-shadow: 0 18px 40px -28px rgba(33, 30, 26, 0.35);
+  max-width: 400px;
+  margin: 0 auto;
   text-align: left;
 }
-.mkt-scene-header {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--td-border-hairline);
-  margin-bottom: 14px;
+.mkt-value + .mkt-value { margin-top: var(--td-space-6); }
+.mkt-value-line {
+  font-family: var(--td-font-brand);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 23px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--td-text-primary);
+  text-align: center;
+  margin: 0 0 14px 0;
 }
-.mkt-scene-title {
+.mkt-window {
+  background: var(--td-bg-canvas);
+  border: 1px solid var(--td-border-hairline);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(33, 30, 26, 0.10);
+  margin: 0;
+}
+.mkt-appbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--td-border-hairline);
+}
+.mkt-appbar-lines { display: flex; flex-direction: column; gap: 1px; }
+.mkt-appbar-who {
   font-family: var(--td-font-ui);
+  font-size: 15px;
   font-weight: 600;
   color: var(--td-text-primary);
-  font-size: 15px;
 }
-.mkt-scene-presence {
+.mkt-appbar-sub {
   font-family: var(--td-font-ui);
-  font-size: 12px;
-  color: var(--td-text-tertiary);
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--td-double-action);
 }
-.mkt-scene-presence::before {
-  content: "";
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #3F9B57;
-  margin-right: 5px;
-}
-.mkt-scene-bubbles { display: flex; flex-direction: column; gap: 8px; }
-.mkt-scene-row { display: flex; }
-.mkt-scene-row-me { justify-content: flex-end; }
-.mkt-bubble {
-  font-family: var(--td-font-ui);
-  font-size: 14px;
-  line-height: 1.45;
-  padding: 9px 13px;
-  border-radius: 16px;
-  max-width: 85%;
-}
-.mkt-bubble-them {
-  background: var(--td-bg-recessed);
-  color: var(--td-text-primary);
-  border-bottom-left-radius: 6px;
-}
-.mkt-bubble-me {
-  background: var(--td-text-primary);
-  color: var(--td-bg-canvas);
-  border-bottom-right-radius: 6px;
-}
+.mkt-thread { padding: 14px 12px 16px; }
+.mkt-drow { display: flex; align-items: flex-end; gap: 8px; }
+.mkt-avcomp { display: block; flex: none; margin-bottom: 2px; }
 .mkt-bubble-double {
   background: var(--td-double-field);
   color: var(--td-double-deep);
-  border-bottom-left-radius: 6px;
-}
-.mkt-scene-author {
+  border-radius: 18px 18px 18px 6px;
+  max-width: 82%;
+  padding: 12px 16px 8px;
   font-family: var(--td-font-ui);
-  font-size: 12px;
-  color: var(--td-text-tertiary);
-  padding-left: 4px;
+  font-size: 16px;
+  line-height: 1.375;
 }
-.mkt-scene-caption {
+.mkt-meta {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgba(20, 82, 76, 0.62);
+}
+.mkt-chips {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 4px 0 60px;
+}
+.mkt-chip {
+  font-family: var(--td-font-ui);
+  font-size: 15px;
+  color: var(--td-text-primary);
+  background: var(--td-bg-card);
+  border: 1px solid var(--td-border-input);
+  border-radius: var(--td-radius-pill);
+  padding: 8px 14px;
+}
+.mkt-hero-trust {
   font-family: var(--td-font-ui);
   font-size: 14px;
-  color: var(--td-text-secondary);
-  text-align: center;
-  margin-top: 14px;
+  color: var(--td-text-tertiary);
+  margin: 0;
 }
