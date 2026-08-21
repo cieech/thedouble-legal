@@ -51,8 +51,8 @@
                 <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
               </defs>
               <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#header-lens)"/>
-              <circle cx="36" cy="32" r="25.2" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="1.6" mask="url(#header-lens-outL)"/>
-              <circle cx="60" cy="32" r="25.2" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="1.6" mask="url(#header-lens-outR)"/>
+              <circle cx="36" cy="32" r="24.85" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="2.3" mask="url(#header-lens-outL)"/>
+              <circle cx="60" cy="32" r="24.85" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="2.3" mask="url(#header-lens-outR)"/>
             </svg>
             <span class="mkt-wordmark-text">TheDouble</span>
           </a>
@@ -215,8 +215,8 @@
                   <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
                 </defs>
                 <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-                <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
-                <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
+                <circle cx="36" cy="32" r="24.85" fill="none" stroke="#6B655B" stroke-width="2.3" mask="url(#footer-lens-outL)"/>
+                <circle cx="60" cy="32" r="24.85" fill="none" stroke="#6B655B" stroke-width="2.3" mask="url(#footer-lens-outR)"/>
               </svg>
               <span class="mkt-footer-wordmark">TheDouble</span>
             </div>
@@ -331,7 +331,7 @@
         var source = form.dataset.source || 'site';
         submitting = true;
         btn.disabled = true;
-        btn.textContent = 'Sending...';
+        btn.textContent = 'Sending…';
 
         fetch(SUPABASE_URL, {
           method: 'POST',
