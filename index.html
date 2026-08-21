@@ -14,41 +14,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <link rel="canonical" href="https://thedouble.app/">
   <meta property="og:image" content="https://thedouble.app/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 </head>
-<body>
+<body style="padding:0">
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <!-- HEADER -->
-  <header class="mkt-header" role="banner">
-    <div class="mkt-header-inner">
-      <a href="/" class="mkt-wordmark" aria-label="TheDouble -- home">
-        <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
-          <defs>
-            <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
-            <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
-            <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
-          </defs>
-          <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#header-lens)"/>
-          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outL)"/>
-          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#header-lens-outR)"/>
-        </svg>
-        <span class="mkt-wordmark-text">TheDouble</span>
-      </a>
-
-      <nav class="mkt-nav" aria-label="Main navigation">
-        <a href="#how" class="mkt-nav-link">How it works</a>
-        <a href="privacy.html" class="mkt-nav-link">Privacy</a>
-        <a href="support.html" class="mkt-nav-link">Support</a>
-        <a href="#waitlist-bottom" class="mkt-btn mkt-btn-primary">Join the waitlist</a>
-      </nav>
-
-      <button class="mkt-menu-toggle" aria-controls="mkt-mobile-menu" aria-expanded="false">Menu</button>
-    </div>
-  </header>
 
   <!-- MOBILE MENU -->
   <div class="mkt-mobile-menu" id="mkt-mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
@@ -59,103 +31,114 @@
         <a href="privacy.html" class="mkt-mobile-link">Privacy</a>
         <a href="support.html" class="mkt-mobile-link">Support</a>
       </nav>
-      <a href="#waitlist-bottom" class="mkt-btn mkt-btn-primary mkt-mobile-cta">Join the waitlist</a>
+      <a href="#join" class="mkt-btn mkt-btn-primary mkt-mobile-cta">Join the waitlist</a>
     </div>
   </div>
 
   <main id="main">
-    <!-- HERO -->
-    <section class="mkt-hero" aria-label="Hero">
-      <div class="mkt-hero-inner">
-        <div class="mkt-hero-lens" aria-hidden="true">
-          <svg class="mkt-hero-lens-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64">
-            <defs>
-            <clipPath id="hero-lens"><circle cx="36" cy="32" r="26"/></clipPath>
-            <mask id="hero-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
-            <mask id="hero-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
-          </defs>
-          <circle cx="60" cy="32" r="26" fill="#1F6E66" clip-path="url(#hero-lens)"/>
-          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#hero-lens-outL)"/>
-          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#C9C1B3" stroke-width="1.6" mask="url(#hero-lens-outR)"/>
-          </svg>
-        </div>
-        <h1 class="mkt-display">Your second self.</h1>
-        <p class="mkt-hero-sub">A personal AI that learns how you think, remembers what matters, and quietly works for you between conversations.</p>
+    <!-- HERO: full-bleed documentary (kierunek B, bramka 2026-08-21) -->
+    <section class="ld-hero" aria-label="Hero">
+      <div class="ld-hero-img" role="img" aria-label="A person in warm evening light, looking out over the city"></div>
+      <div class="ld-hero-scrim" aria-hidden="true"></div>
 
-<div class="mkt-value">
-          <h2 class="mkt-value-line">It keeps the word you gave.</h2>
-          <figure class="mkt-window" aria-label="A real moment from the app">
-            <div class="mkt-appbar">
-              <svg class="mkt-avcomp" width="53" height="38" viewBox="0 0 53.12 38.00" role="img" aria-label="Your Double"><defs><clipPath id="wa1"><circle cx="19.0" cy="19.0" r="18.0"/></clipPath><mask id="wm11"><rect width="53.12" height="38.00" fill="white"/><circle cx="34.12" cy="19.0" r="18.0" fill="black"/></mask><mask id="wm21"><rect width="53.12" height="38.00" fill="white"/><circle cx="19.0" cy="19.0" r="18.0" fill="black"/></mask></defs><g clip-path="url(#wa1)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="36" height="36" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa1)"><circle cx="34.12" cy="19.0" r="18.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="19.0" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm11)"/><circle cx="34.12" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm21)"/></svg>
-              <div class="mkt-appbar-lines"><span class="mkt-appbar-who">Your Double</span><span class="mkt-appbar-sub">quietly working…</span></div>
-            </div>
-            <div class="mkt-thread">
-              <div class="mkt-drow">
-                <svg class="mkt-avcomp" width="42" height="30" viewBox="0 0 41.76 30.00" role="img" aria-label="Your Double"><defs><clipPath id="wa2"><circle cx="15.0" cy="15.0" r="14.0"/></clipPath><mask id="wm12"><rect width="41.76" height="30.00" fill="white"/><circle cx="26.76" cy="15.0" r="14.0" fill="black"/></mask><mask id="wm22"><rect width="41.76" height="30.00" fill="white"/><circle cx="15.0" cy="15.0" r="14.0" fill="black"/></mask></defs><g clip-path="url(#wa2)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="28" height="28" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa2)"><circle cx="26.76" cy="15.0" r="14.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="15.0" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm12)"/><circle cx="26.76" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm22)"/></svg>
-                <div class="mkt-bubble-double">You promised Tomek your accountant's contact on Monday. It never went out; I have it ready.<span class="mkt-meta">09:12</span></div>
-              </div>
-              <div class="mkt-chips" aria-hidden="true"><span class="mkt-chip">Send it</span><span class="mkt-chip">I will write to him</span></div>
-            </div>
-          </figure>
+      <header class="ld-wrap" role="banner">
+        <div class="ld-nav">
+          <a href="/" class="mkt-wordmark" aria-label="TheDouble -- home">
+            <svg class="mkt-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+              <defs>
+                <clipPath id="header-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+                <mask id="header-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+                <mask id="header-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
+              </defs>
+              <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#header-lens)"/>
+              <circle cx="36" cy="32" r="25.2" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="1.6" mask="url(#header-lens-outL)"/>
+              <circle cx="60" cy="32" r="25.2" fill="none" stroke="rgba(246,243,237,.55)" stroke-width="1.6" mask="url(#header-lens-outR)"/>
+            </svg>
+            <span class="mkt-wordmark-text">TheDouble</span>
+          </a>
+          <nav class="mkt-nav" aria-label="Main navigation">
+            <a href="#how" class="mkt-nav-link">How it works</a>
+            <a href="privacy.html" class="mkt-nav-link">Privacy</a>
+            <a href="support.html" class="mkt-nav-link">Support</a>
+            <a href="#join" class="mkt-btn ld-btn-paper">Join the waitlist</a>
+          </nav>
+          <button class="mkt-menu-toggle" aria-controls="mkt-mobile-menu" aria-expanded="false">Menu</button>
         </div>
-        <div class="mkt-value">
-          <h2 class="mkt-value-line">It comes back when it matters.</h2>
-          <figure class="mkt-window" aria-label="A real moment from the app">
-            <div class="mkt-appbar">
-              <svg class="mkt-avcomp" width="53" height="38" viewBox="0 0 53.12 38.00" role="img" aria-label="Your Double"><defs><clipPath id="wa3"><circle cx="19.0" cy="19.0" r="18.0"/></clipPath><mask id="wm13"><rect width="53.12" height="38.00" fill="white"/><circle cx="34.12" cy="19.0" r="18.0" fill="black"/></mask><mask id="wm23"><rect width="53.12" height="38.00" fill="white"/><circle cx="19.0" cy="19.0" r="18.0" fill="black"/></mask></defs><g clip-path="url(#wa3)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="36" height="36" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa3)"><circle cx="34.12" cy="19.0" r="18.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="19.0" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm13)"/><circle cx="34.12" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm23)"/></svg>
-              <div class="mkt-appbar-lines"><span class="mkt-appbar-who">Your Double</span><span class="mkt-appbar-sub">watching the price…</span></div>
-            </div>
-            <div class="mkt-thread">
-              <div class="mkt-drow">
-                <svg class="mkt-avcomp" width="42" height="30" viewBox="0 0 41.76 30.00" role="img" aria-label="Your Double"><defs><clipPath id="wa4"><circle cx="15.0" cy="15.0" r="14.0"/></clipPath><mask id="wm14"><rect width="41.76" height="30.00" fill="white"/><circle cx="26.76" cy="15.0" r="14.0" fill="black"/></mask><mask id="wm24"><rect width="41.76" height="30.00" fill="white"/><circle cx="15.0" cy="15.0" r="14.0" fill="black"/></mask></defs><g clip-path="url(#wa4)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="28" height="28" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa4)"><circle cx="26.76" cy="15.0" r="14.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="15.0" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm14)"/><circle cx="26.76" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm24)"/></svg>
-                <div class="mkt-bubble-double">Your answer about the trip is due today. You wanted yes if it stayed under 900; this morning it is 840.<span class="mkt-meta">09:00</span></div>
-              </div>
-              <div class="mkt-chips" aria-hidden="true"><span class="mkt-chip">Draft the yes</span><span class="mkt-chip">Hold until tonight</span></div>
-            </div>
-          </figure>
-        </div>
-        <div class="mkt-value">
-          <h2 class="mkt-value-line">It hears what your people would tell you.</h2>
-          <figure class="mkt-window" aria-label="A real moment from the app">
-            <div class="mkt-appbar">
-              <svg class="mkt-avcomp" width="53" height="38" viewBox="0 0 53.12 38.00" role="img" aria-label="Your Double"><defs><clipPath id="wa5"><circle cx="19.0" cy="19.0" r="18.0"/></clipPath><mask id="wm15"><rect width="53.12" height="38.00" fill="white"/><circle cx="34.12" cy="19.0" r="18.0" fill="black"/></mask><mask id="wm25"><rect width="53.12" height="38.00" fill="white"/><circle cx="19.0" cy="19.0" r="18.0" fill="black"/></mask></defs><g clip-path="url(#wa5)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="36" height="36" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa5)"><circle cx="34.12" cy="19.0" r="18.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="19.0" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm15)"/><circle cx="34.12" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm25)"/></svg>
-              <div class="mkt-appbar-lines"><span class="mkt-appbar-who">Your Double</span><span class="mkt-appbar-sub">a word with Anna's Double…</span></div>
-            </div>
-            <div class="mkt-thread">
-              <div class="mkt-drow">
-                <svg class="mkt-avcomp" width="42" height="30" viewBox="0 0 41.76 30.00" role="img" aria-label="Your Double"><defs><clipPath id="wa6"><circle cx="15.0" cy="15.0" r="14.0"/></clipPath><mask id="wm16"><rect width="41.76" height="30.00" fill="white"/><circle cx="26.76" cy="15.0" r="14.0" fill="black"/></mask><mask id="wm26"><rect width="41.76" height="30.00" fill="white"/><circle cx="15.0" cy="15.0" r="14.0" fill="black"/></mask></defs><g clip-path="url(#wa6)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="28" height="28" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa6)"><circle cx="26.76" cy="15.0" r="14.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="15.0" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm16)"/><circle cx="26.76" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm26)"/></svg>
-                <div class="mkt-bubble-double">A small coincidence: you and Anna both mentioned Saturday's fireworks to your Doubles. She is going with friends; you were going anyway.<span class="mkt-meta">18:40</span></div>
-              </div>
-              <div class="mkt-chips" aria-hidden="true"><span class="mkt-chip">Tell her</span><span class="mkt-chip">Keep it between us</span></div>
-            </div>
-          </figure>
-        </div>
+      </header>
 
-        <div class="mkt-hero-actions">
-          <div class="mkt-waitlist-form" id="waitlist-hero">
-            <form class="mkt-wl-form" data-source="site-hero" novalidate>
-              <input
-                class="mkt-wl-input"
-                type="email"
-                name="email"
-                placeholder="Your email address"
-                autocomplete="email"
-                aria-label="Email address"
-                required
-              >
-              <button type="submit" class="mkt-btn mkt-btn-primary mkt-wl-btn">Join the waitlist</button>
-            </form>
-            <p class="mkt-wl-status" aria-live="polite" hidden></p>
-            <noscript><p class="mkt-wl-noscript">To join, email <a href="mailto:hello@thedouble.app">hello@thedouble.app</a> with the subject "Waitlist".</p></noscript>
+      <div class="ld-wrap ld-hero-main">
+        <div class="ld-hero-copy">
+          <h1>You live your life.<br><em>It keeps the thread.</em></h1>
+          <p class="ld-hero-sub">TheDouble is your second self: a personal AI that learns how you think, remembers what matters, and quietly works for you between conversations.</p>
+          <a href="#join" class="mkt-btn ld-btn-paper">Join the waitlist</a>
+          <p class="ld-hero-trust">Private by design. Nothing shared without you.</p>
+        </div>
+        <figure class="ld-pinned" aria-label="A message from your Double">
+          <div class="ld-sender">
+            <svg class="ld-avcomp" width="51" height="36" viewBox="0 0 53.12 38.00" role="img" aria-label="Your Double"><defs><clipPath id="wa1"><circle cx="19.0" cy="19.0" r="18.0"/></clipPath><mask id="wm11"><rect width="53.12" height="38.00" fill="white"/><circle cx="34.12" cy="19.0" r="18.0" fill="black"/></mask><mask id="wm21"><rect width="53.12" height="38.00" fill="white"/><circle cx="19.0" cy="19.0" r="18.0" fill="black"/></mask></defs><g clip-path="url(#wa1)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="36" height="36" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa1)"><circle cx="34.12" cy="19.0" r="18.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="19.0" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm11)"/><circle cx="34.12" cy="19.0" r="17.40" fill="none" stroke="#C9C1B3" stroke-width="1.20" mask="url(#wm21)"/></svg>
+            <div><div class="ld-sender-name">Your Double</div><div class="ld-sender-doing">quietly working…</div></div>
           </div>
-          <a href="#how" class="mkt-btn mkt-btn-outline mkt-hero-how-link">How it works</a>
-          <p class="mkt-hero-trust">Nothing shared without you.</p>
+          <div class="ld-bubble">You promised Tomek your accountant's contact on Monday. It never went out; I have it ready.<span class="ld-meta">09:12</span></div>
+          <div class="ld-chips" aria-hidden="true"><span class="ld-chip">Send it</span><span class="ld-chip">I will write to him</span></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 01 · YOUR OWN RULES -->
+    <section class="ld-chapter ld-c1" aria-labelledby="ch1-title">
+      <div class="ld-wrap ld-ch-grid">
+        <div class="ld-ch-copy">
+          <p class="ld-kicker">01 · Your own rules</p>
+          <h2 class="ld-ch-title" id="ch1-title">It comes back when it matters.</h2>
+          <p>You set the condition once, in plain words. Your Double watches quietly, and returns on the day the answer is due, with the number in hand.</p>
+        </div>
+        <div class="ld-ch-art">
+          <figure class="ld-loose" aria-label="A real moment from the app">
+            <div class="ld-sender">
+              <svg class="ld-avcomp" width="40" height="28" viewBox="0 0 41.76 30.00" role="img" aria-label="Your Double"><defs><clipPath id="wa2"><circle cx="15.0" cy="15.0" r="14.0"/></clipPath><mask id="wm12"><rect width="41.76" height="30.00" fill="white"/><circle cx="26.76" cy="15.0" r="14.0" fill="black"/></mask><mask id="wm22"><rect width="41.76" height="30.00" fill="white"/><circle cx="15.0" cy="15.0" r="14.0" fill="black"/></mask></defs><g clip-path="url(#wa2)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="28" height="28" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa2)"><circle cx="26.76" cy="15.0" r="14.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="15.0" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm12)"/><circle cx="26.76" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm22)"/></svg>
+              <span class="ld-sender-line">Your Double · watching the price…</span>
+            </div>
+            <div class="ld-bubble">Your answer about the trip is due today. You wanted yes if it stayed under 900; this morning it is 840.<span class="ld-meta">09:00</span></div>
+            <div class="ld-chips" aria-hidden="true"><span class="ld-chip">Draft the yes</span><span class="ld-chip">Hold until tonight</span></div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · YOUR PEOPLE (photo band) -->
+    <section class="ld-band" aria-labelledby="ch2-title">
+      <div class="ld-band-img" role="img" aria-label="Friends together at golden hour"></div>
+      <div class="ld-band-scrim" aria-hidden="true"></div>
+      <div class="ld-wrap ld-band-inner">
+        <p class="ld-kicker">02 · Your people</p>
+        <h2 id="ch2-title">It hears what your people would tell you.</h2>
+        <p>When someone you know has a Double too, the two of them can compare notes, with consent, and surface only what is worth your attention. The relationship stays yours.</p>
+      </div>
+    </section>
+
+    <!-- 03 · SERENDIPITY -->
+    <section class="ld-chapter ld-c2" aria-labelledby="ch3-title">
+      <div class="ld-wrap ld-ch-grid">
+        <div class="ld-ch-copy">
+          <p class="ld-kicker">03 · Serendipity, delivered</p>
+          <h2 class="ld-ch-title" id="ch3-title">Small coincidences stop slipping by.</h2>
+          <p>Two people mention the same evening, the same city, the same idea. Nobody notices; the moment passes. Your Double catches it in time.</p>
+        </div>
+        <div class="ld-ch-art">
+          <figure class="ld-loose" aria-label="A real moment from the app">
+            <div class="ld-sender">
+              <svg class="ld-avcomp" width="40" height="28" viewBox="0 0 41.76 30.00" role="img" aria-label="Your Double"><defs><clipPath id="wa3"><circle cx="15.0" cy="15.0" r="14.0"/></clipPath><mask id="wm13"><rect width="41.76" height="30.00" fill="white"/><circle cx="26.76" cy="15.0" r="14.0" fill="black"/></mask><mask id="wm23"><rect width="41.76" height="30.00" fill="white"/><circle cx="15.0" cy="15.0" r="14.0" fill="black"/></mask></defs><g clip-path="url(#wa3)"><image href="img/portrait-w.jpg" x="1.0" y="1.0" width="28" height="28" preserveAspectRatio="xMidYMid slice"/></g><g clip-path="url(#wa3)"><circle cx="26.76" cy="15.0" r="14.0" fill="#1F6E66" fill-opacity=".45"/></g><circle cx="15.0" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm13)"/><circle cx="26.76" cy="15.0" r="13.50" fill="none" stroke="#C9C1B3" stroke-width="1.00" mask="url(#wm23)"/></svg>
+              <span class="ld-sender-line">Your Double · a word with Anna's Double…</span>
+            </div>
+            <div class="ld-bubble">A small coincidence: you and Anna both mentioned Saturday's fireworks to your Doubles. She is going with friends; you were going anyway.<span class="ld-meta">18:40</span></div>
+            <div class="ld-chips" aria-hidden="true"><span class="ld-chip">Tell her</span><span class="ld-chip">Keep it between us</span></div>
+          </figure>
         </div>
       </div>
     </section>
 
     <!-- HOW IT WORKS -->
-    <section class="mkt-section mkt-editorial" id="how" aria-labelledby="how-heading">
+    <section class="mkt-section mkt-editorial" id="how" aria-labelledby="how-heading" style="border-top:1px solid var(--td-border-hairline)">
       <div class="mkt-section-inner">
         <h2 class="mkt-section-heading" id="how-heading">How it works</h2>
 
@@ -176,15 +159,6 @@
       </div>
     </section>
 
-    <!-- PULL QUOTE -->
-    <section class="mkt-pullquote-section" aria-label="Quote">
-      <div class="mkt-section-inner">
-        <blockquote class="mkt-pullquote">
-          <p>Nothing shared without you.</p>
-        </blockquote>
-      </div>
-    </section>
-
     <!-- PRIVACY -->
     <section class="mkt-section mkt-editorial" id="privacy" aria-labelledby="privacy-heading">
       <div class="mkt-section-inner">
@@ -195,73 +169,84 @@
       </div>
     </section>
 
-    <!-- AVAILABILITY / WAITLIST BOTTOM -->
-    <section class="mkt-section mkt-availability" id="waitlist-bottom" aria-labelledby="beta-heading">
-      <div class="mkt-section-inner">
-        <div class="mkt-availability-inner">
-          <h2 class="mkt-section-heading mkt-availability-heading" id="beta-heading">In private beta</h2>
-          <p class="mkt-body">Available now on iOS via TestFlight and Android via Google Play beta. A small group of early users are helping shape what TheDouble becomes.</p>
-          <div class="mkt-waitlist-form" id="waitlist-bottom-form">
-            <form class="mkt-wl-form" data-source="site-bottom" novalidate>
-              <input
-                class="mkt-wl-input"
-                type="email"
-                name="email"
-                placeholder="Your email address"
-                autocomplete="email"
-                aria-label="Email address"
-                required
-              >
-              <button type="submit" class="mkt-btn mkt-btn-primary mkt-wl-btn">Join the waitlist</button>
-            </form>
-            <p class="mkt-wl-status" aria-live="polite" hidden></p>
-            <noscript><p class="mkt-wl-noscript">To join, email <a href="mailto:hello@thedouble.app">hello@thedouble.app</a> with the subject "Waitlist".</p></noscript>
-          </div>
+    <!-- JOIN: ink band with waitlist + footer -->
+    <section class="ld-join" id="join" aria-labelledby="join-heading">
+      <div class="ld-join-inner">
+        <div class="ld-join-mark" aria-hidden="true">
+          <svg width="66" height="44" viewBox="0 0 96 64" focusable="false">
+            <defs>
+              <clipPath id="join-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+              <mask id="join-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+              <mask id="join-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
+            </defs>
+            <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#join-lens)"/>
+            <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#join-lens-outL)"/>
+            <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#join-lens-outR)"/>
+          </svg>
         </div>
+        <h2 id="join-heading">Meet <em>your Double</em> before everyone else does.</h2>
+        <p class="ld-join-note">In private beta: available now on iOS via TestFlight and Android via Google Play beta. A small group of early users are helping shape what TheDouble becomes.</p>
+        <div class="mkt-waitlist-form" id="waitlist-join">
+          <form class="mkt-wl-form" data-source="site-join" novalidate>
+            <input
+              class="mkt-wl-input"
+              type="email"
+              name="email"
+              placeholder="Your email address"
+              autocomplete="email"
+              aria-label="Email address"
+              required
+            >
+            <button type="submit" class="mkt-btn mkt-btn-primary mkt-wl-btn">Join the waitlist</button>
+          </form>
+          <p class="mkt-wl-status" aria-live="polite" hidden></p>
+          <noscript><p class="mkt-wl-noscript">To join, email <a href="mailto:hello@thedouble.app">hello@thedouble.app</a> with the subject "Waitlist".</p></noscript>
+        </div>
+        <p class="ld-join-after">We invite in small batches and write to each person personally.</p>
+
+        <!-- FOOTER -->
+        <footer class="mkt-footer" role="contentinfo">
+          <div class="mkt-footer-inner">
+            <div class="mkt-footer-lockup">
+              <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
+                <defs>
+                  <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
+                  <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
+                  <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
+                </defs>
+                <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
+                <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
+                <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
+              </svg>
+              <span class="mkt-footer-wordmark">TheDouble</span>
+            </div>
+
+            <nav class="mkt-footer-nav" aria-label="Footer navigation">
+              <div class="mkt-footer-col">
+                <p class="mkt-footer-col-label">Product</p>
+                <a href="#how" class="mkt-footer-link">How it works</a>
+                <a href="#join" class="mkt-footer-link">Waitlist</a>
+              </div>
+              <div class="mkt-footer-col">
+                <p class="mkt-footer-col-label">Legal</p>
+                <a href="privacy.html" class="mkt-footer-link">Privacy</a>
+                <a href="terms.html" class="mkt-footer-link">Terms</a>
+                <a href="delete-account.html" class="mkt-footer-link">Account deletion</a>
+                <a href="safety.html" class="mkt-footer-link">Safety</a>
+              </div>
+              <div class="mkt-footer-col">
+                <p class="mkt-footer-col-label">Contact</p>
+                <a href="support.html" class="mkt-footer-link">Support</a>
+                <a href="mailto:hello@thedouble.app" class="mkt-footer-link">hello@thedouble.app</a>
+              </div>
+            </nav>
+
+            <p class="mkt-footer-signoff">Nothing shared without you.</p>
+          </div>
+        </footer>
       </div>
     </section>
   </main>
-
-  <!-- FOOTER -->
-  <footer class="mkt-footer" role="contentinfo">
-    <div class="mkt-footer-inner">
-      <div class="mkt-footer-lockup">
-        <svg class="mkt-footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" aria-hidden="true" focusable="false">
-          <defs>
-            <clipPath id="footer-lens"><circle cx="36" cy="32" r="26"/></clipPath>
-            <mask id="footer-lens-outL"><rect width="96" height="64" fill="white"/><circle cx="60" cy="32" r="26" fill="black"/></mask>
-            <mask id="footer-lens-outR"><rect width="96" height="64" fill="white"/><circle cx="36" cy="32" r="26" fill="black"/></mask>
-          </defs>
-          <circle cx="60" cy="32" r="26" fill="#3E9B90" clip-path="url(#footer-lens)"/>
-          <circle cx="36" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outL)"/>
-          <circle cx="60" cy="32" r="25.2" fill="none" stroke="#6B655B" stroke-width="1.6" mask="url(#footer-lens-outR)"/>
-        </svg>
-        <span class="mkt-footer-wordmark">TheDouble</span>
-      </div>
-
-      <nav class="mkt-footer-nav" aria-label="Footer navigation">
-        <div class="mkt-footer-col">
-          <p class="mkt-footer-col-label">Product</p>
-          <a href="#how" class="mkt-footer-link">How it works</a>
-          <a href="#waitlist-bottom" class="mkt-footer-link">Waitlist</a>
-        </div>
-        <div class="mkt-footer-col">
-          <p class="mkt-footer-col-label">Legal</p>
-          <a href="privacy.html" class="mkt-footer-link">Privacy</a>
-          <a href="terms.html" class="mkt-footer-link">Terms</a>
-          <a href="delete-account.html" class="mkt-footer-link">Account deletion</a>
-          <a href="safety.html" class="mkt-footer-link">Safety</a>
-        </div>
-        <div class="mkt-footer-col">
-          <p class="mkt-footer-col-label">Contact</p>
-          <a href="support.html" class="mkt-footer-link">Support</a>
-          <a href="mailto:hello@thedouble.app" class="mkt-footer-link">hello@thedouble.app</a>
-        </div>
-      </nav>
-
-      <p class="mkt-footer-signoff">Nothing shared without you.</p>
-    </div>
-  </footer>
 
   <script>
     // Mobile menu toggle
@@ -299,7 +284,7 @@
       }
     })();
 
-    // Waitlist form submission (fala W / W1: form states + normalization + dual-form sync)
+    // Waitlist form submission (form states + normalization; fix z W2 iteracji 1)
     (function () {
       var SUPABASE_URL = 'https://vdpgexbrvtygdkffznog.supabase.co/rest/v1/waitlist';
       var ANON_KEY = 'sb_publishable_Q0ZpzV-aZn6Gv2tR6KhAZw_jz7wM49W';
@@ -322,8 +307,6 @@
         btn.textContent = 'Join the waitlist';
       }
 
-      // On success, both forms settle: the one used shows the message,
-      // the other collapses to the same confirmation.
       function settleAllForms(message) {
         document.querySelectorAll('.mkt-wl-form').forEach(function (f) {
           showStatus(f, message, false);
